@@ -1,6 +1,0 @@
-import { z } from 'zod';
-
-export const authSchema = z.object({
-	email: z.string().email(),
-	password: z.string().regex(/^[a-zA-Z0-9]{6,18}$/),
-});

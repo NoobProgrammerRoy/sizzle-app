@@ -1,70 +1,72 @@
+import { Form } from '@/components/form/Form';
+import { Button } from '@/components/form/Button';
+import { Label } from '@/components/form/Label';
+import { TextField } from '@/components/form/TextField';
+import { Alert } from '@/components/ui/Alert';
 import { Inter } from '@next/font/google';
+import { useError } from '@/utils/hooks/use-error';
+import { z } from 'zod';
+import { useForm } from '@/utils/hooks/use-form';
 import { SyntheticEvent, useState } from 'react';
-import { authSchema } from '@/utils/types/auth';
-import { z } from 'zod/lib';
-import { supabase } from '@/supabase/supabaseClient';
-import { useUser } from '@/utils/context/userContext';
 import Link from 'next/link';
-import { useRouter } from 'next/router';
 
 const inter = Inter({ subsets: ['latin'] });
 
-export default function SignupPage() {
-	const [signup, setSignup] = useState<z.infer<typeof authSchema>>({
+// Schema for sign up data
+const schema = z.object({
+	name: z.string().regex(/^[a-zA-Z0-9\s]{1,100}$/),
+	contact: z.string().regex(/^[0-9]{10}$/),
+	email: z.string().email(),
+	password: z.string().regex(/^[a-zA-Z0-9]{6,18}$/),
+	confirmPassword: z.string().regex(/^[a-zA-Z0-9]{6,18}$/),
+});
+
+export default function signup() {
+	const [formData, setFormData] = useForm({
+		name: '',
+		contact: '',
 		email: '',
 		password: '',
+		confirmPassword: '',
 	});
-	const [error, setError] = useState<{ error: boolean; message: string }>({
-		error: false,
-		message: '',
-	});
-	const router = useRouter();
-	const { signupUser } = useUser();
+	const [error, setError] = useError();
 
-	// Function to handle form input change
+	// Function to handle change in input
 	function handleChange(e: SyntheticEvent) {
 		const { value, id } = e.target as HTMLInputElement;
 
-		if (id === 'email') setSignup({ ...signup, email: value });
-		else if (id === 'password') setSignup({ ...signup, password: value });
+		if (id === 'name') {
+			setFormData({ ...formData, name: value });
+			return;
+		} else if (id === 'contact') {
+			setFormData({ ...formData, contact: value });
+			return;
+		} else if (id === 'email') {
+			setFormData({ ...formData, email: value });
+			return;
+		} else if (id === 'password') {
+			setFormData({ ...formData, password: value });
+			return;
+		}
+		setFormData({ ...formData, confirmPassword: value });
 	}
 
-	// Function to handle form submission
+	// Function to handle form submission and sign in the user
 	async function handleSubmit(e: SyntheticEvent) {
 		e.preventDefault();
-		const result = authSchema.safeParse(signup);
 
-		if (result.success) {
-			setError({ error: false, message: '' });
-
-			// Submit data to server
-			const user = await signupUser!(signup.email, signup.password);
-
-			if (user) {
-				console.log(user.data);
-				router.push('/app');
-				setSignup({ email: '', password: '' });
-			} else {
-				setError({
-					error: true,
-					message: 'An account with this email address already exists!',
-				});
-			}
-		} else {
-			// Display error to the user
-			setError({
-				error: true,
-				message: 'Please enter a valid email address and password!',
-			});
+		if (!schema.safeParse(formData).success) {
+			setError(true);
+			return;
 		}
 	}
 
 	return (
 		<main
-			className={`flex min-h-screen w-full flex-col items-center justify-center bg-gradient-to-b from-red-600 to-red-100 p-4 md:p-8 ${inter.className}`}
+			className={`${inter.className} flex min-h-screen w-full flex-col items-center justify-center bg-gradient-to-b from-green-200 to-green-50 p-4`}
 		>
-			<h1 className='flex flex-row items-center justify-center space-x-1 pb-4 text-2xl font-bold text-white'>
-				<span>Sizzle</span>
+			<h1 className='flex flex-row items-start justify-center space-x-1 text-gray-700'>
+				<span className='text-xl font-bold'>Sizzle</span>
 				<span>
 					<svg
 						xmlns='http://www.w3.org/2000/svg'
@@ -80,56 +82,90 @@ export default function SignupPage() {
 					</svg>
 				</span>
 			</h1>
-			<p className='pb-4 text-lg text-gray-100'>Sign up to create an account</p>
-			<div className='w-full max-w-md rounded bg-gray-50 p-4 shadow md:p-6'>
-				<form onSubmit={handleSubmit}>
-					<label className='mb-1 block text-sm ' htmlFor='email'>
-						Email Address<span className='pl-1 text-red-600'>*</span>
-					</label>
-					<input
-						className='mb-4 block w-full rounded border border-gray-300 p-2 text-sm outline-none valid:border-green-500 focus:valid:border-green-500 focus:invalid:border-red-600'
-						type='email'
-						value={signup.email}
+			<p className='mt-2 text-lg text-gray-700'>Sign up to create an account</p>
+			<div className='my-4'>
+				{error && <Alert variant='danger' text='Please enter valid details' />}
+			</div>
+			<Form onSubmit={handleSubmit}>
+				<div className='mb-4'>
+					<div className='mb-1'>
+						<Label id='name' text='Restaurant name' />
+					</div>
+					<TextField
+						value={formData.name}
 						onChange={handleChange}
-						id='email'
-						placeholder='Email Address'
-						required
+						type='text'
+						name='name'
+						id='name'
+						placeholder='Restaurant name'
+						required={true}
 					/>
-					<label className='mb-1 block text-sm' htmlFor='password'>
-						Password<span className='pl-1 text-red-600'>*</span>
-					</label>
-					<input
-						className='mb-2 block w-full rounded border border-gray-300 p-2 text-sm outline-none valid:border-green-500 focus:valid:border-green-500 focus:invalid:border-red-600'
-						type='password'
-						value={signup.password}
+				</div>
+				<div className='mb-4'>
+					<div className='mb-1'>
+						<Label id='contact' text='Contact number' />
+					</div>
+					<TextField
+						value={formData.email}
 						onChange={handleChange}
+						type='text'
+						name='contact'
+						id='contact'
+						placeholder='Contact number'
+						required={true}
+					/>
+				</div>
+
+				<div className='mb-4'>
+					<div className='mb-1'>
+						<Label id='email' text='Email address' />
+					</div>
+					<TextField
+						value={formData.email}
+						onChange={handleChange}
+						type='email'
+						name='email'
+						id='email'
+						placeholder='Email address'
+						required={true}
+					/>
+				</div>
+				<div className='mb-4'>
+					<div className='mb-1'>
+						<Label id='password' text='Password' />
+					</div>
+					<TextField
+						value={formData.password}
+						onChange={handleChange}
+						type='password'
+						name='password'
 						id='password'
 						placeholder='Password'
-						required
+						required={true}
 					/>
-					<p className='mb-1 text-xs text-gray-700'>
-						- Password must contain alpha-numeric characters only
-					</p>
-					<p className='mb-4 text-xs text-gray-700'>
-						- Password must be 6-18 characters in length
-					</p>
-					<button className='block w-full rounded bg-red-500 px-4 py-2 text-sm text-white transition-colors hover:bg-red-600'>
-						Create an account
-					</button>
-					{error.error && (
-						<p className='mt-3 text-xs font-bold text-red-600'>
-							{error.message}
-						</p>
-					)}
-				</form>
-			</div>
-			<p className='mt-2 text-gray-700 md:mt-4'>
-				Already have an account?
+				</div>
+				<div className='mb-4'>
+					<div className='mb-1'>
+						<Label id='confirm-password' text='Confirm password' />
+					</div>
+					<TextField
+						value={formData.confirmPassword}
+						onChange={handleChange}
+						type='password'
+						name='confirm-password'
+						id='confirm-password'
+						placeholder='Confirm Password'
+						required={true}
+					/>
+				</div>
+				<Button text='Create an account' variant='full' />
+			</Form>
+			<p className='mt-4 text-gray-700'>
+				Already have an account?{' '}
 				<Link
-					className='text-indigo-700 transition-colors hover:text-indigo-800'
-					href='/signin'
+					className='text-indigo-600 hover:text-indigo-800'
+					href={'/signin'}
 				>
-					{' '}
 					Click here to sign in
 				</Link>
 			</p>

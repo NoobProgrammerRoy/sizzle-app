@@ -1,60 +1,57 @@
+import { Form } from '@/components/form/Form';
+import { Button } from '@/components/form/Button';
+import { Label } from '@/components/form/Label';
+import { TextField } from '@/components/form/TextField';
+import { Alert } from '@/components/ui/Alert';
 import { Inter } from '@next/font/google';
+import { useError } from '@/utils/hooks/use-error';
+import { z } from 'zod';
+import { useForm } from '@/utils/hooks/use-form';
 import { SyntheticEvent, useState } from 'react';
-import { authSchema } from '@/utils/types/auth';
-import { z } from 'zod/lib';
-import { useRouter } from 'next/router';
-import { useUser } from '@/utils/context/userContext';
 import Link from 'next/link';
 
 const inter = Inter({ subsets: ['latin'] });
 
-export default function SigninPage() {
-	const [signin, setSignin] = useState<z.infer<typeof authSchema>>({
+// Schema for sign in data
+const schema = z.object({
+	email: z.string().email(),
+	password: z.string().regex(/^[a-zA-Z0-9]{6,18}$/),
+});
+
+export default function signin() {
+	const [formData, setFormData] = useForm({
 		email: '',
 		password: '',
 	});
-	const [error, setError] = useState<boolean>(false);
-	const { signinUser } = useUser();
-	const router = useRouter();
+	const [error, setError] = useError();
 
-	// Function to handle form input change
+	// Function to handle change in input
 	function handleChange(e: SyntheticEvent) {
 		const { value, id } = e.target as HTMLInputElement;
 
-		if (id === 'email') setSignin({ ...signin, email: value });
-		else if (id === 'password') setSignin({ ...signin, password: value });
+		if (id === 'email') {
+			setFormData({ ...formData, email: value });
+			return;
+		}
+		setFormData({ ...formData, password: value });
 	}
 
-	// Function to handle form submission
+	// Function to handle form submission and sign in the user
 	async function handleSubmit(e: SyntheticEvent) {
 		e.preventDefault();
-		const result = authSchema.safeParse(signin);
 
-		if (result.success) {
-			setError(false);
-
-			// Submit data to server
-			const user = await signinUser!(signin.email, signin.password);
-
-			if (user) {
-				console.log(user.data);
-				setSignin({ email: '', password: '' });
-				router.push('/app');
-			} else {
-				setError(true);
-			}
-		} else {
-			// Display error to the user
+		if (!schema.safeParse(formData).success) {
 			setError(true);
+			return;
 		}
 	}
 
 	return (
 		<main
-			className={`flex min-h-screen w-full flex-col items-center justify-center bg-gradient-to-b from-red-600 to-red-100 p-4 md:p-8 ${inter.className}`}
+			className={`${inter.className} flex min-h-screen w-full flex-col items-center justify-center bg-gradient-to-b from-green-200 to-green-50`}
 		>
-			<h1 className='flex flex-row items-center justify-center space-x-1 pb-4 text-2xl font-bold text-white'>
-				<span>Sizzle</span>
+			<h1 className='flex flex-row items-start justify-center space-x-1 text-gray-700'>
+				<span className='text-xl font-bold'>Sizzle</span>
 				<span>
 					<svg
 						xmlns='http://www.w3.org/2000/svg'
@@ -70,50 +67,49 @@ export default function SigninPage() {
 					</svg>
 				</span>
 			</h1>
-			<p className='pb-4 text-lg text-gray-100'>Sign in to your account</p>
-			<div className='w-full max-w-md rounded bg-gray-50 p-4 shadow md:p-6'>
-				<form onSubmit={handleSubmit}>
-					<label className='mb-1 block text-sm ' htmlFor='email'>
-						Email Address<span className='pl-1 text-red-600'>*</span>
-					</label>
-					<input
-						className='mb-4 block w-full rounded border border-gray-300 p-2 text-sm outline-none valid:border-green-500 focus:valid:border-green-500 focus:invalid:border-red-600'
+			<p className='mt-2 text-lg text-gray-700'>Sign in to your account</p>
+			<div className='my-4'>
+				{error && (
+					<Alert variant='danger' text='Invalid email address or password' />
+				)}
+			</div>
+			<Form onSubmit={handleSubmit}>
+				<div className='mb-4'>
+					<div className='mb-1'>
+						<Label id='email' text='Email address' />
+					</div>
+					<TextField
+						value={formData.email}
+						onChange={handleChange}
 						type='email'
-						value={signin.email}
-						onChange={handleChange}
+						name='email'
 						id='email'
-						placeholder='Email Address'
-						required
+						placeholder='Email address'
+						required={true}
 					/>
-					<label className='mb-1 block text-sm' htmlFor='password'>
-						Password<span className='pl-1 text-red-600'>*</span>
-					</label>
-					<input
-						className='mb-4 block w-full rounded border border-gray-300 p-2 text-sm outline-none valid:border-green-500 focus:valid:border-green-500 focus:invalid:border-red-600'
-						type='password'
-						value={signin.password}
+				</div>
+				<div className='mb-4'>
+					<div className='mb-1'>
+						<Label id='password' text='Password' />
+					</div>
+					<TextField
+						value={formData.password}
 						onChange={handleChange}
+						type='password'
+						name='password'
 						id='password'
 						placeholder='Password'
-						required
+						required={true}
 					/>
-					<button className='block w-full rounded bg-red-500 px-4 py-2 text-sm text-white transition-colors hover:bg-red-600'>
-						Sign in
-					</button>
-					{error && (
-						<p className='mt-3 text-xs font-bold text-red-600'>
-							Invalid email address and password!
-						</p>
-					)}
-				</form>
-			</div>
-			<p className='mt-2 text-gray-700 md:mt-4'>
-				Don't have an account?
+				</div>
+				<Button text='Sign in to your account' variant='full' />
+			</Form>
+			<p className='mt-4 text-gray-700'>
+				Don't have an account?{' '}
 				<Link
-					className='text-indigo-700 transition-colors hover:text-indigo-800'
-					href='/signup'
+					className='text-indigo-600 hover:text-indigo-800'
+					href={'/signup'}
 				>
-					{' '}
 					Click here to sign up
 				</Link>
 			</p>
