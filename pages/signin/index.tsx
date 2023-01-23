@@ -48,7 +48,7 @@ export default function signin() {
 
 	return (
 		<main
-			className={`${inter.className} flex min-h-screen w-full flex-col items-center justify-center bg-gradient-to-b from-green-200 to-green-50`}
+			className={`${inter.className} flex min-h-screen w-full flex-col items-center justify-center bg-gradient-to-b from-green-200 to-green-50 p-4`}
 		>
 			<h1 className='flex flex-row items-start justify-center space-x-1 text-gray-700'>
 				<span className='text-xl font-bold'>Sizzle</span>

@@ -106,7 +106,7 @@ export default function signup() {
 						<Label id='contact' text='Contact number' />
 					</div>
 					<TextField
-						value={formData.email}
+						value={formData.contact}
 						onChange={handleChange}
 						type='text'
 						name='contact'
@@ -154,7 +154,7 @@ export default function signup() {
 						type='password'
 						name='confirm-password'
 						id='confirm-password'
-						placeholder='Confirm Password'
+						placeholder='Confirm password'
 						required={true}
 					/>
 				</div>
