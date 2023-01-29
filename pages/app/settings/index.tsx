@@ -5,8 +5,9 @@ import { Alert } from '@/components/ui/Alert';
 import { AppLayout } from '@/components/ui/AppLayout';
 import { useError } from '@/utils/hooks/use-error';
 import { useForm } from '@/utils/hooks/use-form';
-import { SyntheticEvent } from 'react';
+import { SyntheticEvent, useEffect, useRef } from 'react';
 import { z } from 'zod';
+import QRCode from 'qrcode';
 
 // Schema for settings data
 const schema = z.object({
@@ -23,6 +24,30 @@ export default function settings() {
 		contact: '',
 	});
 	const [error, setError] = useError();
+	const ref = useRef<HTMLCanvasElement>(null);
+
+	// Render QR code on the client, clear canvas on unmount
+	useEffect(() => {
+		QRCode.toCanvas(
+			ref!.current,
+			'www.google.com',
+			{
+				errorCorrectionLevel: 'L',
+				margin: 2,
+				scale: 6,
+				version: 4,
+			},
+			(err) => {
+				if (err) throw err;
+			}
+		);
+
+		return () => {
+			const canvas = ref?.current;
+			const ctx = canvas?.getContext('2d');
+			ctx?.clearRect(0, 0, canvas!.width, canvas!.height);
+		};
+	}, []);
 
 	// Function to download QR code
 	function handleClick() {}
@@ -56,7 +81,9 @@ export default function settings() {
 				<h3 className='mb-4 text-lg font-bold text-gray-900 md:text-center'>
 					Restaurant QR Code
 				</h3>
-				<div>{/* QR code to be rendered here */}</div>
+				<div id='qrcode' className='mx-auto w-fit border border-gray-300'>
+					<canvas ref={ref}></canvas>
+				</div>
 				<p className='mt-2 mb-4 text-gray-600 md:text-center'>
 					The QR code above is unique to your restaurant. Download the QR code
 					or Scan it to open the review portal for your restaurant.
