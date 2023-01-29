@@ -4,6 +4,7 @@ import { Radio } from '@/components/form/Radio';
 import { Rating } from '@/components/form/Rating';
 import { TextField } from '@/components/form/TextField';
 import { Alert } from '@/components/ui/Alert';
+import { Modal } from '@/components/ui/Modal';
 import { useError } from '@/utils/hooks/use-error';
 import { useForm } from '@/utils/hooks/use-form';
 import { Inter } from '@next/font/google';
