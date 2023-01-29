@@ -21,6 +21,9 @@ const schema = z.object({
 	confirmPassword: z.string().regex(/^[a-zA-Z0-9]{6,18}$/),
 });
 
+// Regex for contact
+const contactRegex = /^[0-9]{0,10}$/;
+
 export default function signup() {
 	const [formData, setFormData] = useForm({
 		name: '',
@@ -37,18 +40,17 @@ export default function signup() {
 
 		if (id === 'name') {
 			setFormData({ ...formData, name: value });
-			return;
 		} else if (id === 'contact') {
-			setFormData({ ...formData, contact: value });
-			return;
+			if (contactRegex.test(value)) {
+				setFormData({ ...formData, contact: value });
+			}
 		} else if (id === 'email') {
 			setFormData({ ...formData, email: value });
-			return;
 		} else if (id === 'password') {
 			setFormData({ ...formData, password: value });
-			return;
+		} else if (id === 'confirm-password') {
+			setFormData({ ...formData, confirmPassword: value });
 		}
-		setFormData({ ...formData, confirmPassword: value });
 	}
 
 	// Function to handle form submission and sign in the user
@@ -63,10 +65,9 @@ export default function signup() {
 
 	return (
 		<main
-			className={`${inter.className} flex min-h-screen w-full flex-col items-center justify-center bg-gradient-to-b from-green-200 to-green-50 p-4`}
+			className={`${inter.className} flex min-h-screen w-full flex-col items-center justify-center bg-gradient-to-b from-green-200 via-green-300 to-green-50 p-4`}
 		>
-			<h1 className='flex flex-row items-start justify-center space-x-1 text-gray-700'>
-				<span className='text-xl font-bold'>Sizzle</span>
+			<div className='flex flex-row items-start justify-center space-x-1 text-gray-700'>
 				<span>
 					<svg
 						xmlns='http://www.w3.org/2000/svg'
@@ -81,7 +82,8 @@ export default function signup() {
 						/>
 					</svg>
 				</span>
-			</h1>
+				<h1 className=' text-xl font-bold '>Sizzle</h1>
+			</div>
 			<p className='mt-2 text-lg text-gray-700'>Sign up to create an account</p>
 			<div className='my-4'>
 				{error && <Alert variant='danger' text='Please enter valid details' />}

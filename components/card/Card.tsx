@@ -7,7 +7,7 @@ export function Card({ title, value, up = true }: card) {
 	return (
 		<div className='mx-auto w-full max-w-sm rounded bg-white p-4 shadow'>
 			<div className='mb-4 flex flex-row items-center justify-between'>
-				<h4 className='text-base font-bold text-gray-500'>{title}</h4>
+				<h4 className='text-base font-bold text-gray-600'>{title}</h4>
 				<span>
 					{up ? (
 						<svg

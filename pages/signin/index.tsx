@@ -31,9 +31,9 @@ export default function signin() {
 
 		if (id === 'email') {
 			setFormData({ ...formData, email: value });
-			return;
+		} else if (id === 'password') {
+			setFormData({ ...formData, password: value });
 		}
-		setFormData({ ...formData, password: value });
 	}
 
 	// Function to handle form submission and sign in the user
@@ -48,10 +48,9 @@ export default function signin() {
 
 	return (
 		<main
-			className={`${inter.className} flex min-h-screen w-full flex-col items-center justify-center bg-gradient-to-b from-green-200 to-green-50 p-4`}
+			className={`${inter.className} flex min-h-screen w-full flex-col items-center justify-center bg-gradient-to-b from-green-200 via-green-300 to-green-50 p-4`}
 		>
-			<h1 className='flex flex-row items-start justify-center space-x-1 text-gray-700'>
-				<span className='text-xl font-bold'>Sizzle</span>
+			<div className='flex flex-row items-start justify-center space-x-1 text-gray-700'>
 				<span>
 					<svg
 						xmlns='http://www.w3.org/2000/svg'
@@ -66,7 +65,8 @@ export default function signin() {
 						/>
 					</svg>
 				</span>
-			</h1>
+				<h1 className=' text-xl font-bold '>Sizzle</h1>
+			</div>
 			<p className='mt-2 text-lg text-gray-700'>Sign in to your account</p>
 			<div className='my-4'>
 				{error && (

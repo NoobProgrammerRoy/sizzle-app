@@ -7,14 +7,20 @@ import { SyntheticEvent, useState } from 'react';
 export default function reviews() {
 	const [pageCount, setPageCount] = useState<number>(1);
 	const [totalCount, settotalCount] = useState<number>(10);
-	const [date, setDate] = useState<string>('today');
+	const [date, setDate] = useState<'Today' | 'This week' | 'Total'>('Today');
 
 	// Function to handle change in date
 	function handleChange(e: SyntheticEvent) {
 		const { value, id } = e.target as HTMLSelectElement;
 
 		if (id === 'date') {
-			setDate(value);
+			if (value === 'Today') {
+				setDate(value);
+			} else if (value === 'This week') {
+				setDate(value);
+			} else if (value === 'Total') {
+				setDate(value);
+			}
 		}
 	}
 
@@ -48,50 +54,30 @@ export default function reviews() {
 					</div>
 				</div>
 			</div>
-			<div className='my-4 w-full overflow-x-auto'>
-				<table className='w-full'>
+			<div className='my-4 w-full overflow-x-auto rounded shadow'>
+				<table className='w-full table-fixed rounded '>
 					<thead>
 						<tr className='bg-gray-200 text-sm'>
-							<th className='p-1 text-left'>#</th>
-							<th className='p-1 text-left'>Date</th>
-							<th className='p-1 text-left'>Taste</th>
-							<th className='p-1 text-left'>Service</th>
-							<th className='p-1 text-left'>Ambience</th>
-							<th className='p-1 text-left'>Pricing</th>
-							<th className='p-1 text-left'>Recommendation</th>
-							<th className='p-1 text-left'>Mode of visit</th>
+							<th className='truncate p-2 text-left'>#</th>
+							<th className='truncate p-2 text-left'>Date</th>
+							<th className='truncate p-2 text-left'>Taste</th>
+							<th className='truncate p-2 text-left'>Service</th>
+							<th className='truncate p-2 text-left'>Ambience</th>
+							<th className='truncate p-2 text-left'>Pricing</th>
+							<th className='truncate p-2 text-left'>Recommendation</th>
+							<th className='truncate p-2 text-left'>Mode of visit</th>
 						</tr>
 					</thead>
 					<tbody>
 						<tr className='border-b border-gray-300 bg-white text-sm text-gray-700'>
-							<td className='p-1'>1</td>
-							<td className='p-1'>2023-01-25</td>
-							<td className='p-1'>5</td>
-							<td className='p-1'>5</td>
-							<td className='p-1'>5</td>
-							<td className='p-1'>5</td>
-							<td className='p-1'>5</td>
-							<td className='p-1'>Social media</td>
-						</tr>
-						<tr className='border-b border-gray-300 text-sm text-gray-700'>
-							<td className='p-1'>1</td>
-							<td className='p-1'>2023-01-25</td>
-							<td className='p-1'>5</td>
-							<td className='p-1'>5</td>
-							<td className='p-1'>5</td>
-							<td className='p-1'>5</td>
-							<td className='p-1'>5</td>
-							<td className='p-1'>Social media</td>
-						</tr>
-						<tr className='border-b border-gray-300  bg-white text-sm text-gray-700'>
-							<td className='p-1'>1</td>
-							<td className='p-1'>2023-01-25</td>
-							<td className='p-1'>5</td>
-							<td className='p-1'>5</td>
-							<td className='p-1'>5</td>
-							<td className='p-1'>5</td>
-							<td className='p-1'>5</td>
-							<td className='p-1'>Social media</td>
+							<td className='p-2'>1</td>
+							<td className='p-2'>2023-01-25</td>
+							<td className='p-2'>5</td>
+							<td className='p-2'>5</td>
+							<td className='p-2'>5</td>
+							<td className='p-2'>5</td>
+							<td className='p-2'>5</td>
+							<td className='p-2'>Social media</td>
 						</tr>
 					</tbody>
 				</table>

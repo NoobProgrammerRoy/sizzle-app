@@ -135,8 +135,8 @@ export function AppLayout({ title, children }: appLayout) {
 			</nav>
 			<section className='flex h-screen w-full flex-col items-center justify-start bg-gray-100'>
 				<div className='flex w-full flex-row items-center justify-between space-x-2 border-b border-gray-300 bg-gray-100 p-4 '>
-					<h2 className='text-xl '>{title}</h2>
-					<span className='flex flex-row items-center justify-center space-x-1'>
+					<h2 className='text-xl text-gray-900'>{title}</h2>
+					<span className='flex flex-row items-center justify-center space-x-1 text-gray-900'>
 						<svg
 							xmlns='http://www.w3.org/2000/svg'
 							fill='none'

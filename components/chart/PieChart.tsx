@@ -72,7 +72,7 @@ export function PieChart({
 	return (
 		<div className='mx-auto w-full max-w-xl rounded bg-white p-2 shadow md:p-4'>
 			<div className='mx-auto w-full md:w-1/2'>
-				<Pie data={data} options={options} />;
+				<Pie data={data} options={options} />
 			</div>
 		</div>
 	);
