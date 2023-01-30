@@ -7,7 +7,10 @@ import { Alert } from '@/components/ui/Alert';
 import { Modal } from '@/components/ui/Modal';
 import { useError } from '@/utils/hooks/use-error';
 import { useForm } from '@/utils/hooks/use-form';
+import { useModal } from '@/utils/hooks/use-modal';
+import { supabase } from '@/utils/supabase/supbase-client';
 import { Inter } from '@next/font/google';
+import { GetServerSideProps, InferGetServerSidePropsType } from 'next';
 import { SyntheticEvent } from 'react';
 import { z } from 'zod';
 
@@ -28,13 +31,22 @@ const schema = z.object({
 		z.literal('Recommendation'),
 		z.literal('Wanted to try a new place'),
 	]),
-	feedback: z.string().regex(/^[a-zA-Z0-9\s]{1,100}$/),
+	feedback: z.string().regex(/^[a-zA-Z0-9\s\,\.]{1,100}$/),
 });
 
 // Regex for contact
 const contactRegex = /^[0-9]{0,10}$/;
 
-export default function review() {
+// Type definition of props
+type props = {
+	name: string;
+	contact: string;
+	review_id: string;
+};
+
+export default function review({
+	data,
+}: InferGetServerSidePropsType<typeof getServerSideProps>) {
 	const [formData, setFormData] = useForm({
 		name: '',
 		contact: '',
@@ -47,6 +59,14 @@ export default function review() {
 		feedback: '',
 	});
 	const [error, setError] = useError();
+	const {
+		loading,
+		setLoading,
+		error: modalError,
+		setError: setModalError,
+		success,
+		setSuccess,
+	} = useModal();
 
 	// Function to handle change in input
 	function handleChange(e: SyntheticEvent) {
@@ -76,12 +96,52 @@ export default function review() {
 	}
 
 	// Function to handle form submission
-	function handleSubmit(e: SyntheticEvent) {
+	async function handleSubmit(e: SyntheticEvent) {
 		e.preventDefault();
 
 		if (!schema.safeParse(formData).success) {
-			setError(true);
+			setError({
+				error: true,
+				message: 'Please fill in all the fields with suitable data',
+			});
 			return;
+		}
+
+		// Send data to the server and submit the review
+		setLoading(true);
+
+		try {
+			const { error } = await supabase.from('reviews').insert({
+				review_id: data.review_id,
+				name: formData.name.trim(),
+				contact: formData.contact,
+				taste: formData.taste,
+				service: formData.service,
+				ambience: formData.ambience,
+				pricing: formData.pricing,
+				recommendation: formData.recommendation,
+				mode_of_visit: formData.mode,
+				feedback: formData.feedback,
+			});
+
+			if (error) throw error;
+
+			setLoading(false);
+			setSuccess(true);
+			setFormData({
+				name: '',
+				contact: '',
+				taste: 0,
+				service: 0,
+				ambience: 0,
+				pricing: 0,
+				recommendation: 0,
+				mode: '',
+				feedback: '',
+			});
+		} catch (err) {
+			setLoading(false);
+			setModalError(true);
 		}
 	}
 
@@ -92,13 +152,13 @@ export default function review() {
 			<section className='mx-auto flex w-full max-w-2xl flex-row items-center justify-start space-x-4 rounded bg-gray-50 p-4 shadow md:p-8'>
 				<div className='h-16 w-16 rounded-full bg-gray-300'></div>
 				<div>
-					<h1 className='text-xl font-bold'>Restaurant name</h1>
-					<p className='mt-1 text-sm text-gray-600'>Contact number</p>
+					<h1 className='text-xl font-bold'>{data.name}</h1>
+					<p className='mt-1 text-sm text-gray-600'>{data.contact}</p>
 				</div>
 			</section>
-			{error && (
+			{error.error && (
 				<div className='mx-auto mt-4 w-fit'>
-					<Alert variant='danger' text='Please fill out all the fields' />
+					<Alert variant='danger' text={error.message} />
 				</div>
 			)}
 			<section className='mx-auto my-4 w-full max-w-2xl rounded bg-gray-50 p-4 shadow md:p-8'>
@@ -207,7 +267,8 @@ export default function review() {
 								<Radio
 									name='mode'
 									id='mode-1'
-									value={formData.mode}
+									value='Social media and Advertisement'
+									current={formData.mode}
 									onChange={handleChange}
 								/>
 								<Label id='mode-1' text='Social media and Advertisement' />
@@ -215,29 +276,32 @@ export default function review() {
 							<div className='mb-1 flex flex-row items-center justify-start space-x-2'>
 								<Radio
 									name='mode'
-									id='mode-3'
-									value={formData.mode}
+									id='mode-2'
+									value='Regular customer'
+									current={formData.mode}
 									onChange={handleChange}
 								/>
-								<Label id='mode-3' text='Regular customer' />
+								<Label id='mode-2' text='Regular customer' />
 							</div>
 							<div className='mb-1 flex flex-row items-center justify-start space-x-2'>
 								<Radio
 									name='mode'
-									id='mode-4'
-									value={formData.mode}
+									id='mode-3'
+									value='Recommendation'
+									current={formData.mode}
 									onChange={handleChange}
 								/>
-								<Label id='mode-4' text='Recommendation' />
+								<Label id='mode-3' text='Recommendation' />
 							</div>
 							<div className='flex flex-row items-center justify-start space-x-2'>
 								<Radio
 									name='mode'
-									id='mode-5'
-									value={formData.mode}
+									id='mode-4'
+									value='Wanted to try a new place'
+									current={formData.mode}
 									onChange={handleChange}
 								/>
-								<Label id='mode-5' text='Wanted to try a new place' />
+								<Label id='mode-4' text='Wanted to try a new place' />
 							</div>
 						</div>
 					</div>
@@ -259,6 +323,53 @@ export default function review() {
 					<Button text='Submit review' variant='fit' />
 				</form>
 			</section>
+			{loading && (
+				<Modal status='loading' message='Submitting your review...' />
+			)}
+			{success && (
+				<Modal status='success' message='Review submitted successfully.' />
+			)}
+			{modalError && (
+				<Modal
+					status='error'
+					message='An error has occured. Please try again later.'
+				/>
+			)}
 		</main>
 	);
 }
+
+export const getServerSideProps: GetServerSideProps<{ data: props }> = async ({
+	params,
+}) => {
+	const { data, error } = await supabase
+		.from('restaurants')
+		.select('name, contact, review_id')
+		.eq('review_id', params!.id)
+		.limit(1)
+		.single();
+
+	if (error) {
+		return {
+			redirect: {
+				destination: '/',
+				permanent: false,
+			},
+		};
+	}
+
+	if (!data) {
+		return {
+			redirect: {
+				destination: '/',
+				permanent: false,
+			},
+		};
+	}
+
+	return {
+		props: {
+			data,
+		},
+	};
+};

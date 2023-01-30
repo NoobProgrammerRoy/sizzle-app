@@ -2,22 +2,15 @@ import { useError } from '@/utils/hooks/use-error';
 import { useState } from 'react';
 
 type modal = {
-	loading?: boolean;
-	success?: boolean;
-	error?: boolean;
+	status?: 'loading' | 'success' | 'error' | undefined;
 	message: string;
 };
 
-export function Modal({
-	loading = true,
-	success = false,
-	error = false,
-	message,
-}: modal) {
+export function Modal({ status = undefined, message }: modal) {
 	return (
 		<div className='fixed top-0 left-0 z-10 flex h-screen w-full flex-col items-center justify-center bg-[rgba(0,0,0,0.7)]'>
 			<div className='w-full max-w-sm rounded bg-gray-50 p-4 shadow md:p-8'>
-				{loading && (
+				{status === 'loading' && (
 					<span className='mx-auto mb-4 block w-fit'>
 						<svg
 							xmlns='http://www.w3.org/2000/svg'
@@ -35,7 +28,7 @@ export function Modal({
 						</svg>
 					</span>
 				)}
-				{success && (
+				{status === 'success' && (
 					<span className='mx-auto mb-4 block w-fit'>
 						<svg
 							xmlns='http://www.w3.org/2000/svg'
@@ -53,7 +46,7 @@ export function Modal({
 						</svg>
 					</span>
 				)}
-				{error && (
+				{status === 'error' && (
 					<span className='mx-auto mb-4 block w-fit'>
 						<svg
 							xmlns='http://www.w3.org/2000/svg'

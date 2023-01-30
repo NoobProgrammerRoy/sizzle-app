@@ -7,8 +7,11 @@ import { Inter } from '@next/font/google';
 import { useError } from '@/utils/hooks/use-error';
 import { z } from 'zod';
 import { useForm } from '@/utils/hooks/use-form';
-import { SyntheticEvent, useState } from 'react';
+import { SyntheticEvent, useEffect } from 'react';
 import Link from 'next/link';
+import { supabase } from '@/utils/supabase/supbase-client';
+import { useRouter } from 'next/router';
+import { Info } from '@/components/form/Info';
 
 const inter = Inter({ subsets: ['latin'] });
 
@@ -33,6 +36,29 @@ export default function signup() {
 		confirmPassword: '',
 	});
 	const [error, setError] = useError();
+	const router = useRouter();
+
+	// Check if user is logged in, if yes, then redirect to app
+	useEffect(() => {
+		async function isUserLoggedIn() {
+			try {
+				const {
+					data: { user },
+					error,
+				} = await supabase.auth.getUser();
+
+				if (error) throw error;
+
+				if (user?.role === 'authenticated') {
+					router.push('/app');
+				}
+			} catch (err: any) {
+				console.log(err.message);
+			}
+		}
+
+		isUserLoggedIn();
+	}, []);
 
 	// Function to handle change in input
 	function handleChange(e: SyntheticEvent) {
@@ -58,8 +84,49 @@ export default function signup() {
 		e.preventDefault();
 
 		if (!schema.safeParse(formData).success) {
-			setError(true);
+			setError({
+				error: true,
+				message: 'Please enter valid details',
+			});
 			return;
+		}
+
+		if (formData.password !== formData.confirmPassword) {
+			setError({
+				error: true,
+				message: 'Passwords do not match',
+			});
+			return;
+		}
+
+		// Send data to the server and sign up new user
+		// Create new user in supabase
+		try {
+			const { data, error: signupError } = await supabase.auth.signUp({
+				email: formData.email,
+				password: formData.password,
+			});
+
+			if (signupError) throw signupError;
+
+			// Add details to newly created user
+			const { error: insertError } = await supabase
+				.from('restaurants')
+				.update({
+					name: formData.name.trim(),
+					contact: formData.contact,
+				})
+				.eq('user_id', data.user?.id);
+
+			if (insertError) throw insertError;
+
+			// // Redirect user to app
+			router.push('/app');
+		} catch (err: any) {
+			setError({
+				error: true,
+				message: err.message,
+			});
 		}
 	}
 
@@ -86,7 +153,7 @@ export default function signup() {
 			</div>
 			<p className='mt-2 text-lg text-gray-700'>Sign up to create an account</p>
 			<div className='my-4'>
-				{error && <Alert variant='danger' text='Please enter valid details' />}
+				{error.error && <Alert variant='danger' text={error.message} />}
 			</div>
 			<Form onSubmit={handleSubmit}>
 				<div className='mb-4'>
@@ -145,6 +212,8 @@ export default function signup() {
 						placeholder='Password'
 						required={true}
 					/>
+					<Info text='Password must contain only alphanumeric characters.' />
+					<Info text='Password must be 6-18 characters in length.' />
 				</div>
 				<div className='mb-4'>
 					<div className='mb-1'>

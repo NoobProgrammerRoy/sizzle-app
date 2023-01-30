@@ -7,18 +7,23 @@ import { Label } from '@/components/form/Label';
 import { TextField } from '@/components/form/TextField';
 import { Button } from '@/components/form/Button';
 import { useForm } from '@/utils/hooks/use-form';
-import { SyntheticEvent } from 'react';
+import { SyntheticEvent, useState } from 'react';
 import { z } from 'zod';
 import { useError } from '@/utils/hooks/use-error';
 import { Navbar } from '@/components/home/Navbar';
 import { Footer } from '@/components/home/Footer';
+import { supabase } from '@/utils/supabase/supbase-client';
+import { Modal } from '@/components/ui/Modal';
+import { Alert } from '@/components/ui/Alert';
+import { useModal } from '@/utils/hooks/use-modal';
+import { Info } from '@/components/form/Info';
 
 const inter = Inter({ subsets: ['latin'] });
 
 const schema = z.object({
 	name: z.string().regex(/^[a-zA-Z0-9\s]{1,100}$/),
 	email: z.string().email(),
-	message: z.string().regex(/^[a-zA-Z0-9\s]{1,100}$/),
+	message: z.string().regex(/^[a-zA-Z0-9\s\.\,]{1,100}$/),
 });
 
 export default function IndexPage() {
@@ -28,6 +33,8 @@ export default function IndexPage() {
 		message: '',
 	});
 	const [error, setError] = useError();
+
+	const { loading, setLoading } = useModal();
 
 	// Function to handle change in user input
 	function handleChange(e: SyntheticEvent) {
@@ -47,8 +54,38 @@ export default function IndexPage() {
 		e.preventDefault();
 
 		if (!schema.safeParse(formData).success) {
-			setError(true);
+			setError({
+				error: true,
+				message: 'Please enter valid details',
+			});
 			return;
+		}
+
+		// Send data to the server and submit the message
+		setLoading(true);
+
+		try {
+			const { error } = await supabase.from('contacts').insert({
+				name: formData.name.trim(),
+				email: formData.email,
+				message: formData.message.trim(),
+			});
+
+			if (error) throw error;
+
+			// Reset form data
+			setLoading(false);
+			setFormData({
+				name: '',
+				email: '',
+				message: '',
+			});
+			setError({ error: false, message: '' });
+		} catch (err) {
+			setError({
+				error: true,
+				message: 'An error has occured. Please try again later',
+			});
 		}
 	}
 
@@ -184,6 +221,11 @@ export default function IndexPage() {
 							Want to book a live demo or have any queries? Please do let us
 							know.
 						</p>
+						{error.error && (
+							<div className='my-4 mx-auto max-w-fit'>
+								<Alert variant='danger' text={error.message} />
+							</div>
+						)}
 						<div className='flex flex-row items-center justify-center'>
 							<Form onSubmit={handleSubmit}>
 								<div className='mb-4'>
@@ -227,8 +269,9 @@ export default function IndexPage() {
 										placeholder='Message'
 										required={true}
 									/>
+									<Info text='Message should only contain alphanumeric characters, comma or full stop.' />
 								</div>
-								<Button variant='full' text='Ask a question' />
+								<Button variant='full' text='Send a message' />
 							</Form>
 						</div>
 					</article>
@@ -236,6 +279,9 @@ export default function IndexPage() {
 			</main>
 			{/* Footer */}
 			<Footer />
+			{loading && (
+				<Modal status='loading' message={'Sending your message...'} />
+			)}
 		</>
 	);
 }

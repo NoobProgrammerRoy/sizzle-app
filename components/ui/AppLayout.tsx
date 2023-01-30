@@ -1,6 +1,8 @@
+import { supabase } from '@/utils/supabase/supbase-client';
 import { Inter } from '@next/font/google';
 import Link from 'next/link';
 import { useRouter } from 'next/router';
+import { useEffect } from 'react';
 
 const inter = Inter({ subsets: ['latin'] });
 
@@ -87,6 +89,30 @@ type appLayout = {
 export function AppLayout({ title, children }: appLayout) {
 	const router = useRouter();
 
+	// Check if user is logged in, if yes, then redirect to app
+	useEffect(() => {
+		async function isUserLoggedIn() {
+			const {
+				data: { user },
+			} = await supabase.auth.getUser();
+			if (user?.role !== 'authenticated') {
+				router.push('/');
+			}
+		}
+
+		isUserLoggedIn();
+	}, []);
+
+	// Function to sign out logged in user
+	async function handleClick() {
+		const { error } = await supabase.auth.signOut();
+
+		if (error) throw error;
+
+		// Redirect user to home page
+		router.push('/');
+	}
+
 	return (
 		<main
 			className={`${inter.className} flex h-screen w-full flex-row items-center justify-start`}
@@ -136,7 +162,10 @@ export function AppLayout({ title, children }: appLayout) {
 			<section className='flex h-screen w-full flex-col items-center justify-start bg-gray-100'>
 				<div className='flex w-full flex-row items-center justify-between space-x-2 border-b border-gray-300 bg-gray-100 p-4 '>
 					<h2 className='text-xl text-gray-900'>{title}</h2>
-					<span className='flex flex-row items-center justify-center space-x-1 text-gray-900'>
+					<button
+						onClick={handleClick}
+						className='flex flex-row items-center justify-center space-x-1 text-gray-900'
+					>
 						<svg
 							xmlns='http://www.w3.org/2000/svg'
 							fill='none'
@@ -152,7 +181,7 @@ export function AppLayout({ title, children }: appLayout) {
 							/>
 						</svg>
 						<span className='hidden text-sm  md:block'> Sign out</span>
-					</span>
+					</button>
 				</div>
 				<div className='h-full w-full overflow-auto p-4'>{children}</div>
 			</section>

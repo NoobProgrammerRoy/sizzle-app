@@ -8,6 +8,9 @@ import { useForm } from '@/utils/hooks/use-form';
 import { SyntheticEvent, useEffect, useRef } from 'react';
 import { z } from 'zod';
 import QRCode from 'qrcode';
+import { supabase } from '@/utils/supabase/supbase-client';
+import { Modal } from '@/components/ui/Modal';
+import { useModal } from '@/utils/hooks/use-modal';
 
 // Schema for settings data
 const schema = z.object({
@@ -25,23 +28,71 @@ export default function settings() {
 	});
 	const [error, setError] = useError();
 	const ref = useRef<HTMLCanvasElement>(null);
+	const {
+		loading,
+		setLoading,
+		error: modalError,
+		setError: setModalError,
+	} = useModal();
 
-	// Render QR code on the client, clear canvas on unmount
+	// Fetch data from the server to draw QR code and set form data
 	useEffect(() => {
-		QRCode.toCanvas(
-			ref!.current,
-			'www.google.com',
-			{
-				errorCorrectionLevel: 'L',
-				margin: 2,
-				scale: 6,
-				version: 4,
-			},
-			(err) => {
-				if (err) throw err;
-			}
-		);
+		// Function to fetch data from the server
+		async function fetchData() {
+			const {
+				data: { user },
+				error: userError,
+			} = await supabase.auth.getUser();
 
+			if (userError) throw userError;
+
+			const { data, error } = await supabase
+				.from('restaurants')
+				.select('name, contact, review_id')
+				.eq('user_id', user?.id)
+				.limit(1)
+				.single();
+
+			if (error) throw error;
+
+			return { ...data, id: user?.id };
+		}
+
+		// Function to draw QR code and set form data
+		async function drawAndUpdate() {
+			try {
+				const { name, contact, review_id: reviewId } = await fetchData();
+
+				QRCode.toCanvas(
+					ref!.current,
+					'www.sizzle.com/review/' + reviewId,
+					{
+						errorCorrectionLevel: 'L',
+						margin: 2,
+						scale: 6,
+						version: 4,
+					},
+					(err) => {
+						if (err) throw err;
+					}
+				);
+
+				setLoading(false);
+				setFormData({
+					name,
+					contact,
+				});
+			} catch (err) {
+				// Display error using modal
+				setLoading(false);
+				setModalError(true);
+			}
+		}
+
+		setLoading(true);
+		drawAndUpdate();
+
+		// Clear QR code drawn on the client
 		return () => {
 			const canvas = ref?.current;
 			const ctx = canvas?.getContext('2d');
@@ -70,8 +121,40 @@ export default function settings() {
 		e.preventDefault();
 
 		if (!schema.safeParse(formData).success) {
-			setError(true);
+			setError({
+				error: true,
+				message: 'Please enter valid details',
+			});
 			return;
+		}
+
+		// Send data to the server and update the restaurant details
+		setLoading(true);
+
+		try {
+			const {
+				data: { user },
+				error: userError,
+			} = await supabase.auth.getUser();
+
+			if (userError) throw userError;
+
+			const { error } = await supabase
+				.from('restaurants')
+				.update({
+					name: formData.name.trim(),
+					contact: formData.contact,
+				})
+				.eq('user_id', user?.id);
+
+			if (error) throw error;
+
+			setLoading(false);
+		} catch (err: any) {
+			setError({
+				error: true,
+				message: err.message,
+			});
 		}
 	}
 
@@ -97,9 +180,9 @@ export default function settings() {
 					Edit Restaurant details
 				</h3>
 				<div className='mx-auto max-w-lg'>
-					{error && (
+					{error.error && (
 						<div className='my-4'>
-							<Alert variant='danger' text='Please enter valid details' />
+							<Alert variant='danger' text={error.message} />
 						</div>
 					)}
 					<form onSubmit={handleSubmit}>
@@ -135,6 +218,15 @@ export default function settings() {
 					</form>
 				</div>
 			</section>
+			{loading && (
+				<Modal status='loading' message='Loading restaurant data...' />
+			)}
+			{modalError && (
+				<Modal
+					status='error'
+					message='An error has occured. Please try again later.'
+				/>
+			)}
 		</AppLayout>
 	);
 }
