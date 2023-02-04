@@ -349,16 +349,7 @@ export const getServerSideProps: GetServerSideProps<{ data: props }> = async ({
 		.limit(1)
 		.single();
 
-	if (error) {
-		return {
-			redirect: {
-				destination: '/',
-				permanent: false,
-			},
-		};
-	}
-
-	if (!data) {
+	if (error || !data) {
 		return {
 			redirect: {
 				destination: '/',

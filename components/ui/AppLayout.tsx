@@ -1,8 +1,10 @@
+import { useModal } from '@/utils/hooks/use-modal';
 import { supabase } from '@/utils/supabase/supbase-client';
 import { Inter } from '@next/font/google';
 import Link from 'next/link';
 import { useRouter } from 'next/router';
 import { useEffect } from 'react';
+import { Modal } from './Modal';
 
 const inter = Inter({ subsets: ['latin'] });
 
@@ -88,14 +90,23 @@ type appLayout = {
 
 export function AppLayout({ title, children }: appLayout) {
 	const router = useRouter();
+	const { error, setError } = useModal();
 
 	// Check if user is logged in, if yes, then redirect to app
 	useEffect(() => {
 		async function isUserLoggedIn() {
-			const {
-				data: { user },
-			} = await supabase.auth.getUser();
-			if (user?.role !== 'authenticated') {
+			try {
+				const {
+					data: { user },
+					error,
+				} = await supabase.auth.getUser();
+
+				if (error) throw error;
+
+				if (user?.role !== 'authenticated') {
+					router.push('/');
+				}
+			} catch (err) {
 				router.push('/');
 			}
 		}
@@ -105,12 +116,16 @@ export function AppLayout({ title, children }: appLayout) {
 
 	// Function to sign out logged in user
 	async function handleClick() {
-		const { error } = await supabase.auth.signOut();
+		try {
+			const { error } = await supabase.auth.signOut();
 
-		if (error) throw error;
+			if (error) throw error;
 
-		// Redirect user to home page
-		router.push('/');
+			// Redirect user to home page
+			router.push('/');
+		} catch (err) {
+			setError(true);
+		}
 	}
 
 	return (
@@ -185,6 +200,12 @@ export function AppLayout({ title, children }: appLayout) {
 				</div>
 				<div className='h-full w-full overflow-auto p-4'>{children}</div>
 			</section>
+			{error && (
+				<Modal
+					status='error'
+					message='An error has occured. Please try again later.'
+				/>
+			)}
 		</main>
 	);
 }

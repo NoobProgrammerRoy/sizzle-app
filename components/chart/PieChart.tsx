@@ -20,8 +20,8 @@ const options = {
 };
 
 type pieChart = {
-	value: number;
-	count: number;
+	value: number | null;
+	count: number | null;
 };
 
 export function PieChart({
@@ -33,7 +33,7 @@ export function PieChart({
 	values?: pieChart[];
 }) {
 	const data = {
-		labels: values?.map((item) => item.value.toString()),
+		labels: values?.map((item) => item.value!.toString()),
 		datasets: [
 			{
 				label: 'No. of ratings',
