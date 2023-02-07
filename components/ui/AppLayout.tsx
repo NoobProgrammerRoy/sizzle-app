@@ -5,6 +5,7 @@ import Link from 'next/link';
 import { useRouter } from 'next/router';
 import { useEffect } from 'react';
 import { Modal } from './Modal';
+import { useUser } from '@/utils/context/user-context';
 
 const inter = Inter({ subsets: ['latin'] });
 
@@ -91,10 +92,14 @@ type appLayout = {
 export function AppLayout({ title, children }: appLayout) {
 	const router = useRouter();
 	const { error, setError } = useModal();
+	const context = useUser();
 
 	// Check if user is logged in, if yes, then redirect to app
 	useEffect(() => {
 		async function isUserLoggedIn() {
+			if (context?.user.user) {
+				return;
+			}
 			try {
 				const {
 					data: { user },
@@ -105,7 +110,19 @@ export function AppLayout({ title, children }: appLayout) {
 
 				if (user?.role !== 'authenticated') {
 					router.push('/');
+					return;
 				}
+
+				// Set user context
+				const { data, error: dataError } = await supabase
+					.from('restaurants')
+					.select('name')
+					.eq('user_id', user?.id)
+					.single();
+
+				if (dataError) throw dataError;
+
+				context?.setUser({ user: true, name: data.name, id: user?.id });
 			} catch (err) {
 				router.push('/');
 			}
@@ -121,6 +138,8 @@ export function AppLayout({ title, children }: appLayout) {
 
 			if (error) throw error;
 
+			context?.setUser({ user: false });
+
 			// Redirect user to home page
 			router.push('/');
 		} catch (err) {
@@ -135,7 +154,9 @@ export function AppLayout({ title, children }: appLayout) {
 			<nav className='flex h-screen w-fit flex-col items-center justify-start border-r border-gray-300 bg-gray-50 p-2 md:w-80 md:p-4'>
 				<div className='flex w-full flex-row items-center justify-start space-x-4'>
 					<div className='h-12 w-12 rounded-full bg-gray-300'></div>
-					<h1 className='hidden text-xl font-bold md:block'>Restaurant name</h1>
+					<h1 className='hidden w-fit truncate text-xl font-bold md:block'>
+						{context?.user.name ? context?.user.name : 'Restaurant name'}
+					</h1>
 				</div>
 				<ul className='mt-8 w-full'>
 					{routes.map((route) => (

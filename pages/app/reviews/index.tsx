@@ -2,7 +2,9 @@ import { Button } from '@/components/form/Button';
 import { Label } from '@/components/form/Label';
 import { Select } from '@/components/form/Select';
 import { AppLayout } from '@/components/ui/AppLayout';
+import { Loader } from '@/components/ui/Loader';
 import { Modal } from '@/components/ui/Modal';
+import { useUser } from '@/utils/context/user-context';
 import { useModal } from '@/utils/hooks/use-modal';
 import { supabase } from '@/utils/supabase/supbase-client';
 import { SyntheticEvent, useEffect, useState } from 'react';
@@ -22,25 +24,19 @@ const DATE = new Date();
 
 export default function reviews() {
 	const [pageCount, setPageCount] = useState<number>(0);
-	const [totalCount, setTotalCount] = useState<number>(9);
+	const [totalPageCount, settotalPageCount] = useState<number>(9);
 	const [date, setDate] = useState<'Today' | 'This month' | 'Total'>('Total');
 	const [data, setData] = useState<data[] | null>(null);
 	const { loading, setLoading, error, setError } = useModal();
 	const [userId, setUserId] = useState<string>('');
+	const [totalDataCount, setTotalDataCount] = useState(0);
+	const context = useUser();
 
 	useEffect(() => {
 		async function fetchData() {
 			try {
-				const {
-					data: { user },
-					error,
-				} = await supabase.auth.getUser();
-
-				if (error) throw error;
-
-				setUserId(user!.id);
-
-				fetchReviews(user!.id);
+				setUserId(context?.user.id!);
+				fetchReviews(context?.user.id!);
 			} catch (err) {
 				setLoading(false);
 				setError(true);
@@ -100,7 +96,7 @@ export default function reviews() {
 				}
 			}
 		} else {
-			if (pageCount < totalCount) {
+			if (pageCount < totalPageCount) {
 				try {
 					setLoading(true);
 					fetchReviews(
@@ -153,95 +149,123 @@ export default function reviews() {
 
 		setLoading(false);
 		setData(data);
+
+		if (date === 'Total') {
+			setTotalDataCount(data.length);
+		}
 		// Fetch total number of pages and set total page count
-		setTotalCount(+(count! / 100).toFixed());
+		settotalPageCount(+(count! / 100).toFixed());
 	}
 
 	return (
 		<AppLayout title='Reviews'>
-			{data && data.length > 0 ? (
-				<>
-					<div className='mt-2 flex flex-col items-start justify-start space-y-2 md:flex-row md:items-center md:justify-between md:space-y-0'>
-						<h3 className='text-lg font-bold text-gray-900'>Filter by</h3>
-						<div>
-							<div className='flex flex-row items-center justify-center space-x-2'>
-								<Label id='date' text='Date' />
-								<Select
-									value={date}
-									onChange={handleChange}
-									name='date'
-									id='date'
-									options={['Today', 'This month', 'Total']}
-								/>
-							</div>
-						</div>
-					</div>
-					<div className='my-4 w-full overflow-x-auto rounded shadow'>
-						<table className='w-full table-fixed rounded'>
-							<thead>
-								<tr className='bg-gray-200 text-sm'>
-									<th className='truncate p-2 text-left'>#</th>
-									<th className='truncate p-2 text-left'>Date</th>
-									<th className='truncate p-2 text-left'>Taste</th>
-									<th className='truncate p-2 text-left'>Service</th>
-									<th className='truncate p-2 text-left'>Ambience</th>
-									<th className='truncate p-2 text-left'>Pricing</th>
-									<th className='truncate p-2 text-left'>Recommendation</th>
-									<th className='truncate p-2 text-left'>Mode of visit</th>
-									<th className='truncate p-2 text-left'>Feedback</th>
-								</tr>
-							</thead>
-							<tbody>
-								{data.map((item, index) => (
-									<tr
-										key={index + 1}
-										className='bg-white text-sm text-gray-700'
-									>
-										<td className='p-2'>{index + 1}</td>
-										<td className='p-2'>{item.created_at.split('T')[0]}</td>
-										<td className='p-2'>{item.taste}</td>
-										<td className='p-2'>{item.service}</td>
-										<td className='p-2'>{item.ambience}</td>
-										<td className='p-2'>{item.pricing}</td>
-										<td className='p-2'>{item.recommendation}</td>
-										<td className='truncate p-2'>{item.mode_of_visit}</td>
-										<td className='truncate p-2'>{item.feedback}</td>
-									</tr>
-								))}
-							</tbody>
-						</table>
-					</div>
-					<div className='flex flex-row items-center justify-between space-x-2'>
-						<p className='text-gray-700'>
-							Showing {pageCount + 1} of {totalCount + 1} pages
-						</p>
-						<div className='flex flex-row items-center justify-between space-x-2'>
-							<Button
-								onClick={() => handlePageCount('-')}
-								variant='fit'
-								text='&lt;'
-							/>
-							<Button
-								onClick={() => handlePageCount('+')}
-								variant='fit'
-								text='&gt;'
-							/>
-						</div>
-					</div>
-				</>
+			{loading ? (
+				<Loader />
 			) : (
-				!loading &&
-				!error && (
-					<div className='flex h-full flex-col items-center justify-center'>
-						<p className='text-gray-600'>
-							Oops. You haven't collected any reviews yet. Collect reviews from
-							your customers to view them here.
-						</p>
-					</div>
-				)
+				<>
+					{(data && data.length > 0) || totalDataCount ? (
+						<>
+							<div className='mt-2 flex flex-col items-start justify-start space-y-2 md:flex-row md:items-center md:justify-between md:space-y-0'>
+								<h3 className='text-lg font-bold text-gray-900'>Filter by</h3>
+								<div>
+									<div className='flex flex-row items-center justify-center space-x-2'>
+										<Label id='date' text='Date' />
+										<Select
+											value={date}
+											onChange={handleChange}
+											name='date'
+											id='date'
+											options={['Today', 'This month', 'Total']}
+										/>
+									</div>
+								</div>
+							</div>
+							{data && data.length > 0 ? (
+								<>
+									<div className='my-4 w-full overflow-x-auto rounded shadow'>
+										<table className='w-full table-fixed rounded'>
+											<thead>
+												<tr className='bg-gray-200 text-sm'>
+													<th className='truncate p-2 text-left'>#</th>
+													<th className='truncate p-2 text-left'>Date</th>
+													<th className='truncate p-2 text-left'>Taste</th>
+													<th className='truncate p-2 text-left'>Service</th>
+													<th className='truncate p-2 text-left'>Ambience</th>
+													<th className='truncate p-2 text-left'>Pricing</th>
+													<th className='truncate p-2 text-left'>
+														Recommendation
+													</th>
+													<th className='truncate p-2 text-left'>
+														Mode of visit
+													</th>
+													<th className='truncate p-2 text-left'>Feedback</th>
+												</tr>
+											</thead>
+											<tbody>
+												{data.map((item, index) => (
+													<tr
+														key={index + 1}
+														className='bg-white text-sm text-gray-700'
+													>
+														<td className='p-2'>{index + 1}</td>
+														<td className='p-2'>
+															{item.created_at.split('T')[0]}
+														</td>
+														<td className='p-2'>{item.taste}</td>
+														<td className='p-2'>{item.service}</td>
+														<td className='p-2'>{item.ambience}</td>
+														<td className='p-2'>{item.pricing}</td>
+														<td className='p-2'>{item.recommendation}</td>
+														<td className='truncate p-2'>
+															{item.mode_of_visit}
+														</td>
+														<td className='truncate p-2'>{item.feedback}</td>
+													</tr>
+												))}
+											</tbody>
+										</table>
+									</div>
+									<div className='flex flex-row items-center justify-between space-x-2'>
+										<p className='text-gray-700'>
+											Showing {pageCount + 1} of {totalPageCount + 1} pages
+										</p>
+										<div className='flex flex-row items-center justify-between space-x-2'>
+											<Button
+												onClick={() => handlePageCount('-')}
+												variant='fit'
+												text='&lt;'
+											/>
+											<Button
+												onClick={() => handlePageCount('+')}
+												variant='fit'
+												text='&gt;'
+											/>
+										</div>
+									</div>
+								</>
+							) : (
+								<div className='flex h-full flex-col items-center justify-center'>
+									<p className='text-gray-600'>
+										Oops. You haven't collected any reviews for{' '}
+										{date.toLowerCase()}. Collect reviews from your customers to
+										view them here.
+									</p>
+								</div>
+							)}
+						</>
+					) : (
+						!loading &&
+						!error && (
+							<div className='flex h-full flex-col items-center justify-center'>
+								<p className='text-gray-600'>
+									Oops. You haven't collected any reviews yet. Collect reviews
+									from your customers to view them here.
+								</p>
+							</div>
+						)
+					)}
+				</>
 			)}
-
-			{loading && <Modal status='loading' message='Loading all reviews...' />}
 			{error && (
 				<Modal
 					status='error'

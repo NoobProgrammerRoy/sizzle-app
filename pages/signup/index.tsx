@@ -12,6 +12,7 @@ import Link from 'next/link';
 import { supabase } from '@/utils/supabase/supbase-client';
 import { useRouter } from 'next/router';
 import { Info } from '@/components/form/Info';
+import { useUser } from '@/utils/context/user-context';
 
 const inter = Inter({ subsets: ['latin'] });
 
@@ -37,10 +38,15 @@ export default function signup() {
 	});
 	const [error, setError] = useError();
 	const router = useRouter();
+	const context = useUser();
 
 	// Check if user is logged in, if yes, then redirect to app
 	useEffect(() => {
 		async function isUserLoggedIn() {
+			if (context?.user.user) {
+				router.push('/app');
+				return;
+			}
 			try {
 				const {
 					data: { user },
@@ -50,6 +56,17 @@ export default function signup() {
 				if (error) throw error;
 
 				if (user?.role === 'authenticated') {
+					const { data, error: dataError } = await supabase
+						.from('restaurants')
+						.select('name')
+						.eq('user_id', user?.id)
+						.single();
+
+					if (dataError) throw dataError;
+
+					context?.setUser({ user: true, name: data.name, id: user?.id });
+
+					// Redirect user to app
 					router.push('/app');
 				}
 			} catch (err: any) {
@@ -102,7 +119,10 @@ export default function signup() {
 		// Send data to the server and sign up new user
 		// Create new user in supabase
 		try {
-			const { data, error: signupError } = await supabase.auth.signUp({
+			const {
+				data: { user },
+				error: signupError,
+			} = await supabase.auth.signUp({
 				email: formData.email,
 				password: formData.password,
 			});
@@ -110,17 +130,23 @@ export default function signup() {
 			if (signupError) throw signupError;
 
 			// Add details to newly created user
-			const { error: insertError } = await supabase
+			const { error: updateError } = await supabase
 				.from('restaurants')
 				.update({
 					name: formData.name.trim(),
 					contact: formData.contact,
 				})
-				.eq('user_id', data.user?.id);
+				.eq('user_id', user?.id);
 
-			if (insertError) throw insertError;
+			if (updateError) throw updateError;
 
-			// // Redirect user to app
+			context?.setUser({
+				user: true,
+				name: formData.name.trim(),
+				id: user?.id,
+			});
+
+			// Redirect user to app
 			router.push('/app');
 		} catch (err: any) {
 			setError({

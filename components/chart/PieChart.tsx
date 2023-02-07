@@ -30,8 +30,19 @@ export function PieChart({
 		{ value: 4, count: 50 },
 	],
 }: {
-	values?: pieChart[];
+	values?: pieChart[] | null;
 }) {
+	if (!values) {
+		return (
+			<div className='mx-auto grid w-full max-w-xl content-center justify-items-center rounded bg-white p-2 shadow md:p-4'>
+				<p className='text-sm text-gray-600 md:text-center'>
+					Oops. You haven't collected any reviews for today. Collect reviews
+					from your customers to view them here.
+				</p>
+			</div>
+		);
+	}
+
 	const data = {
 		labels: values?.map((item) => item.value!.toString()),
 		datasets: [
