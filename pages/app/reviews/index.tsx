@@ -44,7 +44,9 @@ export default function reviews() {
 		}
 
 		setLoading(true);
-		fetchData();
+		if (context?.user.user) {
+			fetchData();
+		}
 
 		return () => {
 			setLoading(false);

@@ -3,24 +3,8 @@ import { Pie } from 'react-chartjs-2';
 
 ChartJS.register(ArcElement, Tooltip, Legend);
 
-const options = {
-	redraw: true,
-	responsive: true,
-	plugins: {
-		legend: {
-			position: 'top' as const,
-		},
-		title: {
-			display: true,
-			text: "Today's reviews",
-			font: { family: 'Inter, sans-serif', weight: 'bold', size: 14 },
-			color: 'rgb(55, 65, 81)',
-		},
-	},
-};
-
 type pieChart = {
-	value: number | null;
+	value: number | null | string;
 	count: number | null;
 };
 
@@ -34,8 +18,8 @@ export function PieChart({
 }) {
 	if (!values) {
 		return (
-			<div className='mx-auto grid w-full max-w-xl content-center justify-items-center rounded bg-white p-2 shadow md:p-4'>
-				<p className='text-sm text-gray-600 md:text-center'>
+			<div className='mx-auto grid w-full max-w-xl content-center justify-items-center rounded bg-white p-4 shadow '>
+				<p className='spacing text-xs leading-relaxed text-gray-600 md:text-center md:text-sm'>
 					Oops. You haven't collected any reviews for today. Collect reviews
 					from your customers to view them here.
 				</p>
@@ -43,33 +27,66 @@ export function PieChart({
 		);
 	}
 
+	const options = {
+		redraw: true,
+		responsive: true,
+		plugins: {
+			legend: {
+				position: 'top' as const,
+			},
+			title: {
+				display: true,
+				text:
+					typeof values[0].value === 'number'
+						? "Today's reviews"
+						: 'All reviews',
+				font: { family: 'Inter, sans-serif', weight: 'bold', size: 14 },
+				color: 'rgb(55, 65, 81)',
+			},
+		},
+	};
+
 	const data = {
-		labels: values?.map((item) => item.value!.toString()),
+		labels: values?.map((item) =>
+			typeof item.value! === 'number' ? item.value!.toString() : item.value
+		),
 		datasets: [
 			{
 				label: 'No. of ratings',
 				data: values?.map((item) => item.count),
 				backgroundColor: values?.map((item) => {
-					if (item.value === 5) {
+					if (
+						item.value === 5 ||
+						item.value === 'Social media and Advertisement'
+					) {
 						return 'rgb(74, 222, 128)';
-					} else if (item.value === 4) {
+					} else if (item.value === 4 || item.value === 'Regular customer') {
 						return 'rgb(187, 247, 208)';
-					} else if (item.value === 3) {
+					} else if (item.value === 3 || item.value === 'Recommendation') {
 						return 'rgb(250, 204, 21)';
-					} else if (item.value === 2) {
+					} else if (
+						item.value === 2 ||
+						item.value === 'Wanted to try a new place'
+					) {
 						return 'rgb(251, 146, 60)';
 					} else {
 						return 'rgb(248, 113, 113)';
 					}
 				}),
 				borderColor: values?.map((item) => {
-					if (item.value === 5) {
+					if (
+						item.value === 5 ||
+						item.value === 'Social media and Advertisement'
+					) {
 						return 'rgb(22, 163, 74)';
-					} else if (item.value === 4) {
+					} else if (item.value === 4 || item.value === 'Regular customer') {
 						return 'rgb(74, 222, 128)';
-					} else if (item.value === 3) {
+					} else if (item.value === 3 || item.value === 'Recommendation') {
 						return 'rgb(202, 138, 4)';
-					} else if (item.value === 2) {
+					} else if (
+						item.value === 2 ||
+						item.value === 'Wanted to try a new place'
+					) {
 						return 'rgb(234, 88, 12)';
 					} else {
 						return 'rgb(220, 38, 38)';

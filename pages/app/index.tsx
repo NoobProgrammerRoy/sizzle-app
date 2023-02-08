@@ -55,7 +55,9 @@ export default function app() {
 		}
 
 		setLoading(true);
-		fetchData();
+		if (context?.user.user) {
+			fetchData();
+		}
 
 		return () => {
 			setLoading(false);

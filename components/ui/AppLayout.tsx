@@ -97,18 +97,15 @@ export function AppLayout({ title, children }: appLayout) {
 	// Check if user is logged in, if yes, then redirect to app
 	useEffect(() => {
 		async function isUserLoggedIn() {
-			if (context?.user.user) {
-				return;
-			}
 			try {
 				const {
-					data: { user },
-					error,
-				} = await supabase.auth.getUser();
+					data: { session },
+					error: sessionError,
+				} = await supabase.auth.getSession();
 
-				if (error) throw error;
+				if (sessionError) throw sessionError;
 
-				if (user?.role !== 'authenticated') {
+				if (!session) {
 					router.push('/');
 					return;
 				}
@@ -117,12 +114,12 @@ export function AppLayout({ title, children }: appLayout) {
 				const { data, error: dataError } = await supabase
 					.from('restaurants')
 					.select('name')
-					.eq('user_id', user?.id)
+					.eq('user_id', session.user.id)
 					.single();
 
 				if (dataError) throw dataError;
 
-				context?.setUser({ user: true, name: data.name, id: user?.id });
+				context?.setUser({ user: true, name: data.name, id: session.user.id });
 			} catch (err) {
 				router.push('/');
 			}
@@ -138,10 +135,9 @@ export function AppLayout({ title, children }: appLayout) {
 
 			if (error) throw error;
 
-			context?.setUser({ user: false });
-
 			// Redirect user to home page
 			router.push('/');
+			context?.setUser({ user: false });
 		} catch (err) {
 			setError(true);
 		}

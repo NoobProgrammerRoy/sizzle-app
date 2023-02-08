@@ -19,12 +19,20 @@ type data = {
 	recommendation: number | null;
 	service: number | null;
 	taste: number | null;
+	mode: string | null;
+	count_mode: number | null;
+};
+
+type mode = {
+	mode: string | null;
+	count_mode: number | null;
 };
 
 export default function charts() {
 	const { loading, setLoading, error, setError } = useModal();
 	const [todayData, setTodayData] = useState<data[] | null>(null);
 	const [totalData, setTotalData] = useState<data[] | null>(null);
+	const [modeData, setModeData] = useState<mode[] | null>(null);
 	const context = useUser();
 
 	useEffect(() => {
@@ -41,12 +49,18 @@ export default function charts() {
 					'fetch_restaurant_data_for_charts_total',
 					{ id: context?.user.id }
 				);
-
 				if (dataTotalError) throw dataTotalError;
+
+				const { data: modeTotal, error: modeTotalError } = await supabase.rpc(
+					'fetch_restaurant_mode_for_charts',
+					{ id: context?.user.id }
+				);
+				if (modeTotalError) throw modeTotalError;
 
 				setLoading(false);
 				setTodayData(dataToday as data[]);
 				setTotalData(dataTotal as data[]);
+				setModeData(modeTotal as mode[]);
 			} catch (err) {
 				setLoading(false);
 				setError(true);
@@ -54,7 +68,9 @@ export default function charts() {
 		}
 
 		setLoading(true);
-		fetchData();
+		if (context?.user.user) {
+			fetchData();
+		}
 
 		return () => {
 			setLoading(false);
@@ -243,7 +259,16 @@ export default function charts() {
 								<h3 className='mb-2 text-lg font-bold text-gray-900'>
 									Mode of visit
 								</h3>
-								<PieChart />
+								{modeData && modeData.length > 0 ? (
+									<PieChart
+										values={modeData.map((item) => {
+											return {
+												value: item.mode,
+												count: item.count_mode,
+											};
+										})}
+									/>
+								) : null}
 							</div>
 						</>
 					) : (

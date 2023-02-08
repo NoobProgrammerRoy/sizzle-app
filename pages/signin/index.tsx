@@ -33,29 +33,31 @@ export default function signin() {
 	// Check if user is logged in, if yes, then redirect to app
 	useEffect(() => {
 		async function isUserLoggedIn() {
-			if (context?.user.user) {
-				router.push('/app');
-				return;
-			}
 			try {
 				const {
-					data: { user },
-					error,
-				} = await supabase.auth.getUser();
+					data: { session },
+					error: sessionError,
+				} = await supabase.auth.getSession();
 
-				if (error) throw error;
+				if (sessionError) throw sessionError;
 
-				if (user?.role === 'authenticated') {
-					const { data, error: dataError } = await supabase
-						.from('restaurants')
-						.select('name')
-						.eq('user_id', user?.id)
-						.single();
+				if (session) {
+					if (session.user.role === 'authenticated') {
+						const { data, error: dataError } = await supabase
+							.from('restaurants')
+							.select('name')
+							.eq('user_id', session.user.id)
+							.single();
 
-					if (dataError) throw dataError;
+						if (dataError) throw dataError;
 
-					context?.setUser({ user: true, name: data.name, id: user.id });
-					router.push('/app');
+						context?.setUser({
+							user: true,
+							name: data.name,
+							id: session.user.id,
+						});
+						router.push('/app');
+					}
 				}
 			} catch (err: any) {
 				console.log(err.message);

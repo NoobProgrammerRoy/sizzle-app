@@ -13,6 +13,7 @@ import { Modal } from '@/components/ui/Modal';
 import { useModal } from '@/utils/hooks/use-modal';
 import { useUser } from '@/utils/context/user-context';
 import { Loader } from '@/components/ui/Loader';
+import Link from 'next/link';
 
 // Schema for settings data
 const schema = z.object({
@@ -82,7 +83,9 @@ export default function settings() {
 		}
 
 		setLoading(true);
-		drawAndUpdate();
+		if (context?.user.user) {
+			drawAndUpdate();
+		}
 
 		// Clear QR code drawn on the client
 		return () => {
@@ -118,9 +121,6 @@ export default function settings() {
 		const ctx = canvas?.getContext('2d');
 		ctx?.clearRect(0, 0, canvas.width, canvas.height);
 	}
-
-	// Function to download QR code
-	function handleClick() {}
 
 	// Function to handle change in input
 	function handleChange(e: SyntheticEvent) {
@@ -196,11 +196,13 @@ export default function settings() {
 							code or Scan it to open the review portal for your restaurant.
 						</p>
 						<div className='mx-auto max-w-lg'>
-							<Button
-								variant='fit'
-								text='Download QR code'
-								onClick={handleClick}
-							/>
+							<Link
+								href={`/app/qr/${id.current}`}
+								download={'QR Code'}
+								className='block w-fit rounded bg-gradient-to-r from-green-600 to-green-400 px-4 py-2 text-sm text-gray-50'
+							>
+								View QR code template
+							</Link>
 						</div>
 					</section>
 					<section className='mt-2 mb-8'>
