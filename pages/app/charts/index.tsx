@@ -87,8 +87,8 @@ export default function charts() {
 					{totalData && totalData.length > 0 ? (
 						<>
 							<div className='mt-2 mb-8'>
-								<h3 className='mb-2 text-lg font-bold text-gray-900'>Taste</h3>
-								<div className='grid grid-cols-1 gap-4 md:grid-cols-2'>
+								<h3 className='mb-2 font-bold text-gray-900'>Taste</h3>
+								<div className='grid grid-cols-1 gap-4 lg:grid-cols-2'>
 									{totalData && totalData.length > 0 ? (
 										<BarChart
 											values={totalData
@@ -118,10 +118,8 @@ export default function charts() {
 								</div>
 							</div>
 							<div className='mt-2 mb-8'>
-								<h3 className='mb-2 text-lg font-bold text-gray-900'>
-									Service
-								</h3>
-								<div className='grid grid-cols-1 gap-4 md:grid-cols-2'>
+								<h3 className='mb-2 font-bold text-gray-900'>Service</h3>
+								<div className='grid grid-cols-1 gap-4 lg:grid-cols-2'>
 									{totalData && totalData.length > 0 ? (
 										<BarChart
 											values={totalData
@@ -151,10 +149,8 @@ export default function charts() {
 								</div>
 							</div>
 							<div className='mt-2 mb-8'>
-								<h3 className='mb-2 text-lg font-bold text-gray-900'>
-									Ambience
-								</h3>
-								<div className='grid grid-cols-1 gap-4 md:grid-cols-2'>
+								<h3 className='mb-2 font-bold text-gray-900'>Ambience</h3>
+								<div className='grid grid-cols-1 gap-4 lg:grid-cols-2'>
 									{totalData && totalData.length > 0 ? (
 										<BarChart
 											values={totalData
@@ -184,10 +180,8 @@ export default function charts() {
 								</div>
 							</div>
 							<div className='mt-2 mb-8'>
-								<h3 className='mb-2 text-lg font-bold text-gray-900'>
-									Pricing
-								</h3>
-								<div className='grid grid-cols-1 gap-4 md:grid-cols-2'>
+								<h3 className='mb-2 font-bold text-gray-900'>Pricing</h3>
+								<div className='grid grid-cols-1 gap-4 lg:grid-cols-2'>
 									{totalData && totalData.length > 0 ? (
 										<BarChart
 											values={totalData
@@ -217,10 +211,8 @@ export default function charts() {
 								</div>
 							</div>
 							<div className='mt-2 mb-8'>
-								<h3 className='mb-2 text-lg font-bold text-gray-900'>
-									Recommendation
-								</h3>
-								<div className='grid grid-cols-1 gap-4 md:grid-cols-2'>
+								<h3 className='mb-2 font-bold text-gray-900'>Recommendation</h3>
+								<div className='grid grid-cols-1 gap-4 lg:grid-cols-2'>
 									{totalData && totalData.length > 0 ? (
 										<BarChart
 											values={totalData
@@ -256,9 +248,7 @@ export default function charts() {
 								</div>
 							</div>
 							<div className='mt-2 mb-8'>
-								<h3 className='mb-2 text-lg font-bold text-gray-900'>
-									Mode of visit
-								</h3>
+								<h3 className='mb-2 font-bold text-gray-900'>Mode of visit</h3>
 								{modeData && modeData.length > 0 ? (
 									<PieChart
 										values={modeData.map((item) => {

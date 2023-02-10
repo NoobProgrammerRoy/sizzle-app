@@ -162,7 +162,7 @@ export function AppLayout({ title, children }: appLayout) {
 									router.pathname === route.route
 										? 'bg-green-100 text-green-700'
 										: 'text-gray-700'
-								} my-4 flex flex-row items-center justify-center space-x-2 rounded p-2 transition-colors hover:bg-green-200 hover:text-green-800 md:justify-start  `}
+								} my-4 flex flex-row items-center justify-center space-x-2 rounded p-2 font-medium transition-colors hover:bg-green-200 hover:text-green-800 md:justify-start  `}
 								href={route.route}
 							>
 								<span>{route.icon}</span>
@@ -172,8 +172,8 @@ export function AppLayout({ title, children }: appLayout) {
 					))}
 				</ul>
 				<div className='mt-auto w-full'>
-					<h2 className='flex flex-row items-start justify-center space-x-1 text-gray-700'>
-						<span className='hidden md:block'>Powered by </span>
+					<h2 className='flex flex-row items-center justify-center space-x-1 text-sm text-gray-700'>
+						<span className='hidden font-medium md:block'>Powered by </span>
 						<span>
 							<svg
 								xmlns='http://www.w3.org/2000/svg'
@@ -193,10 +193,10 @@ export function AppLayout({ title, children }: appLayout) {
 			</nav>
 			<section className='flex h-screen w-full flex-col items-center justify-start bg-gray-100'>
 				<div className='flex w-full flex-row items-center justify-between space-x-2 border-b border-gray-300 bg-gray-100 p-4 '>
-					<h2 className='text-xl text-gray-900'>{title}</h2>
+					<h2 className='text-lg font-medium text-gray-900'>{title}</h2>
 					<button
 						onClick={handleClick}
-						className='flex flex-row items-center justify-center space-x-1 text-gray-900'
+						className='flex flex-row items-center justify-center space-x-1 font-medium text-gray-900'
 					>
 						<svg
 							xmlns='http://www.w3.org/2000/svg'

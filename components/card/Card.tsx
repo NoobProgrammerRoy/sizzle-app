@@ -7,7 +7,7 @@ export function Card({ title, value, up = true }: card) {
 	return (
 		<div className='mx-auto w-full max-w-sm rounded bg-white p-4 shadow'>
 			<div className='mb-4 flex flex-row items-center justify-between'>
-				<h4 className='text-base font-bold text-gray-600'>{title}</h4>
+				<h4 className='text-sm font-medium text-gray-700'>{title}</h4>
 				<span>
 					{up ? (
 						<svg
@@ -42,7 +42,12 @@ export function Card({ title, value, up = true }: card) {
 					)}
 				</span>
 			</div>
-			<p className='text-3xl font-bold text-gray-700'>{value}</p>
+			<p
+				className='truncate text-3xl font-bold text-gray-900'
+				title={value.toString()}
+			>
+				{value}
+			</p>
 		</div>
 	);
 }

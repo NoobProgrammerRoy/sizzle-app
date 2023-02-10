@@ -168,7 +168,7 @@ export default function reviews() {
 					{(data && data.length > 0) || totalDataCount ? (
 						<>
 							<div className='mt-2 flex flex-col items-start justify-start space-y-2 md:flex-row md:items-center md:justify-between md:space-y-0'>
-								<h3 className='text-lg font-bold text-gray-900'>Filter by</h3>
+								<h3 className=' font-bold text-gray-900'>Filter by</h3>
 								<div>
 									<div className='flex flex-row items-center justify-center space-x-2'>
 										<Label id='date' text='Date' />
@@ -187,27 +187,43 @@ export default function reviews() {
 									<div className='my-4 w-full overflow-x-auto rounded shadow'>
 										<table className='w-full table-fixed rounded'>
 											<thead>
-												<tr className='bg-gray-200 text-sm'>
-													<th className='truncate p-2 text-left'>#</th>
-													<th className='truncate p-2 text-left'>Date</th>
-													<th className='truncate p-2 text-left'>Taste</th>
-													<th className='truncate p-2 text-left'>Service</th>
-													<th className='truncate p-2 text-left'>Ambience</th>
-													<th className='truncate p-2 text-left'>Pricing</th>
-													<th className='truncate p-2 text-left'>
+												<tr className='bg-green-600 text-sm'>
+													<th className='truncate p-2 text-left font-medium text-gray-50'>
+														#
+													</th>
+													<th className='truncate p-2 text-left font-medium text-gray-50'>
+														Date
+													</th>
+													<th className='truncate p-2 text-left font-medium text-gray-50'>
+														Taste
+													</th>
+													<th className='truncate p-2 text-left font-medium text-gray-50'>
+														Service
+													</th>
+													<th className='truncate p-2 text-left font-medium text-gray-50'>
+														Ambience
+													</th>
+													<th className='truncate p-2 text-left font-medium text-gray-50'>
+														Pricing
+													</th>
+													<th className='truncate p-2 text-left font-medium text-gray-50'>
 														Recommendation
 													</th>
-													<th className='truncate p-2 text-left'>
+													<th className='truncate p-2 text-left font-medium text-gray-50'>
 														Mode of visit
 													</th>
-													<th className='truncate p-2 text-left'>Feedback</th>
+													<th className='truncate p-2 text-left font-medium text-gray-50'>
+														Feedback
+													</th>
 												</tr>
 											</thead>
 											<tbody>
 												{data.map((item, index) => (
 													<tr
-														key={index + 1}
-														className='bg-white text-sm text-gray-700'
+														key={index}
+														className={`${
+															index % 2 === 0 ? 'bg-white' : 'bg-green-50'
+														} text-sm text-gray-700`}
 													>
 														<td className='p-2'>{index + 1}</td>
 														<td className='p-2'>
@@ -228,7 +244,7 @@ export default function reviews() {
 										</table>
 									</div>
 									<div className='flex flex-row items-center justify-between space-x-2'>
-										<p className='text-gray-700'>
+										<p className='text-sm text-gray-700'>
 											Showing {pageCount + 1} of {totalPageCount + 1} pages
 										</p>
 										<div className='flex flex-row items-center justify-between space-x-2'>

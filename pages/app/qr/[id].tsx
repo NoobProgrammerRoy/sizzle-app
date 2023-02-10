@@ -50,7 +50,7 @@ export default function qr({
 
 	return (
 		<main
-			className={`${inter.className} ${styles} grid min-h-screen w-full content-center justify-items-center bg-gradient-to-b from-green-200 via-green-300 to-green-50`}
+			className={`${inter.className} ${styles} grid min-h-screen w-full content-center justify-items-center bg-gradient-to-b from-green-300 to-green-100`}
 		>
 			<div className='absolute top-0 left-0 hidden w-full border-green-300 [border-top-width:100vh] print:block'></div>
 			<section className='w-96 rounded-md bg-white p-4 shadow print:z-10'>
@@ -71,7 +71,7 @@ export default function qr({
 					</span>
 					<h1 className=' text-xl font-bold '>Sizzle</h1>
 				</div>
-				<h2 className='mb-2 text-center text-sm leading-relaxed text-gray-600'>
+				<h2 className='mb-2 text-center text-sm font-medium leading-relaxed text-gray-600'>
 					Share your experience to help us serve you better.
 				</h2>
 				<p className='text-center font-bold leading-relaxed text-gray-900'>
@@ -83,7 +83,7 @@ export default function qr({
 				<p className='text-center font-bold leading-relaxed text-gray-900'>
 					{data.contact}
 				</p>
-				<p className='mt-8 text-center text-sm text-gray-600'>
+				<p className='mt-8 text-center text-sm font-medium text-gray-600'>
 					For any inquires, contact us at sizzleapp@gmail.com
 				</p>
 			</section>

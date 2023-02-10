@@ -124,7 +124,7 @@ export default function signin() {
 
 	return (
 		<main
-			className={`${inter.className} flex min-h-screen w-full flex-col items-center justify-center bg-gradient-to-b from-green-200 via-green-300 to-green-50 p-4`}
+			className={`${inter.className} flex min-h-screen w-full flex-col items-center justify-center bg-gradient-to-b from-green-300 to-green-100 p-4`}
 		>
 			<div className='flex flex-row items-start justify-center space-x-1 text-gray-700'>
 				<span>
@@ -143,7 +143,7 @@ export default function signin() {
 				</span>
 				<h1 className=' text-xl font-bold '>Sizzle</h1>
 			</div>
-			<p className='mt-2 text-lg text-gray-700'>Sign in to your account</p>
+			<p className='mt-2 text-base text-gray-700'>Sign in to your account</p>
 			<div className='my-4'>
 				{error.error && <Alert variant='danger' text={error.message} />}
 			</div>

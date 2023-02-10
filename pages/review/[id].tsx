@@ -147,13 +147,15 @@ export default function review({
 
 	return (
 		<main
-			className={`${inter.className} min-h-screen w-full bg-gradient-to-b from-green-200 via-green-300 to-green-50 p-4`}
+			className={`${inter.className} min-h-screen w-full bg-gradient-to-b from-green-300 to-green-100 p-4`}
 		>
 			<section className='mx-auto flex w-full max-w-2xl flex-row items-center justify-start space-x-4 rounded bg-gray-50 p-4 shadow md:p-8'>
 				<div className='h-16 w-16 rounded-full bg-gray-300'></div>
 				<div>
 					<h1 className='text-xl font-bold'>{data.name}</h1>
-					<p className='mt-1 text-sm text-gray-600'>{data.contact}</p>
+					<p className='mt-2 text-sm font-medium text-gray-600'>
+						{data.contact}
+					</p>
 				</div>
 			</section>
 			{error.error && (
@@ -162,7 +164,7 @@ export default function review({
 				</div>
 			)}
 			<section className='mx-auto my-4 w-full max-w-2xl rounded bg-gray-50 p-4 shadow md:p-8'>
-				<p className='mb-4 font-bold text-gray-700'>Add a review</p>
+				<p className='mb-4 font-bold text-gray-900'>Add a review</p>
 				<form onSubmit={handleSubmit}>
 					{/* Name */}
 					<div className='mb-4'>
@@ -323,6 +325,23 @@ export default function review({
 					<Button text='Submit review' variant='fit' />
 				</form>
 			</section>
+			<div className='flex flex-row items-center justify-center space-x-1 text-gray-700'>
+				<p className='text-sm font-medium'>Powered by </p>
+				<span>
+					<svg
+						xmlns='http://www.w3.org/2000/svg'
+						viewBox='0 0 24 24'
+						fill='currentColor'
+						className='h-6 w-6'
+					>
+						<path
+							fillRule='evenodd'
+							d='M12.963 2.286a.75.75 0 00-1.071-.136 9.742 9.742 0 00-3.539 6.177A7.547 7.547 0 016.648 6.61a.75.75 0 00-1.152-.082A9 9 0 1015.68 4.534a7.46 7.46 0 01-2.717-2.248zM15.75 14.25a3.75 3.75 0 11-7.313-1.172c.628.465 1.35.81 2.133 1a5.99 5.99 0 011.925-3.545 3.75 3.75 0 013.255 3.717z'
+							clipRule='evenodd'
+						/>
+					</svg>
+				</span>
+			</div>
 			{loading && (
 				<Modal status='loading' message='Submitting your review...' />
 			)}
