@@ -263,7 +263,7 @@ export default function reviews() {
 								</>
 							) : (
 								<div className='flex h-full flex-col items-center justify-center'>
-									<p className='text-gray-600'>
+									<p className='font-medium text-gray-600'>
 										Oops. You haven't collected any reviews for{' '}
 										{date.toLowerCase()}. Collect reviews from your customers to
 										view them here.
@@ -275,7 +275,7 @@ export default function reviews() {
 						!loading &&
 						!error && (
 							<div className='flex h-full flex-col items-center justify-center'>
-								<p className='text-gray-600'>
+								<p className='font-medium text-gray-600'>
 									Oops. You haven't collected any reviews yet. Collect reviews
 									from your customers to view them here.
 								</p>

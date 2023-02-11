@@ -264,7 +264,7 @@ export default function charts() {
 					) : (
 						!error && (
 							<div className='flex h-full flex-col items-center justify-center'>
-								<p className='text-gray-600'>
+								<p className='font-medium text-gray-600'>
 									Oops. You haven't collected any reviews yet. Collect reviews
 									from your customers to view them here.
 								</p>
