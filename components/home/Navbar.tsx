@@ -13,6 +13,10 @@ const routes = [
 		name: 'Features',
 	},
 	{
+		route: '#pricing',
+		name: 'Pricing',
+	},
+	{
 		route: '#contact',
 		name: 'Contact',
 	},
@@ -25,9 +29,9 @@ const routes = [
 export function Navbar() {
 	return (
 		<header
-			className={`${inter.className} absolute top-0 left-0 z-10 w-full bg-gradient-to-b from-gray-50 via-gray-100 to-white p-2 shadow md:p-4`}
+			className={`${inter.className} fixed top-0 left-0 z-10 w-full bg-gradient-to-b from-gray-50 to-white p-4 shadow-md`}
 		>
-			<nav className='container mx-auto flex flex-col items-center justify-start space-y-2 md:flex-row md:justify-between md:space-y-0'>
+			<nav className='container mx-auto flex flex-row justify-between'>
 				<div className='flex flex-row items-start justify-start space-x-1 text-gray-700'>
 					<span>
 						<svg
@@ -45,16 +49,16 @@ export function Navbar() {
 					</span>
 					<p className='text-xl font-bold'>Sizzle</p>
 				</div>
-				<ul className='flex w-full flex-row items-center justify-center space-x-2 text-sm md:w-fit md:space-x-4 md:text-base'>
+				<ul className='flex flex-row items-center justify-center space-x-4 text-base'>
 					{routes.map((route) => (
 						<li key={route.name}>
 							<Link
 								scroll={false}
 								className={`${
 									route.name === 'Sign in'
-										? 'text-green-600 hover:text-green-800 md:rounded md:bg-gradient-to-r md:from-green-600 md:to-green-400 md:px-4 md:py-2 md:text-gray-100 hover:md:text-gray-100'
-										: 'text-gray-600 hover:text-gray-700'
-								} transition-colors`}
+										? 'rounded bg-gradient-to-r from-green-600 to-green-400 px-4 py-2 text-sm text-gray-100 hover:text-gray-100 md:text-base'
+										: 'hidden text-gray-600 hover:text-gray-900 md:block'
+								} font-medium transition-colors`}
 								href={route.route}
 							>
 								{route.name}

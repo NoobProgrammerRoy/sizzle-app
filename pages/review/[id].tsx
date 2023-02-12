@@ -11,6 +11,7 @@ import { useModal } from '@/utils/hooks/use-modal';
 import { supabase } from '@/utils/supabase/supbase-client';
 import { Inter } from '@next/font/google';
 import { GetServerSideProps, InferGetServerSidePropsType } from 'next';
+import Head from 'next/head';
 import { SyntheticEvent } from 'react';
 import { z } from 'zod';
 
@@ -149,8 +150,22 @@ export default function review({
 		<main
 			className={`${inter.className} min-h-screen w-full bg-gradient-to-b from-green-300 to-green-100 p-4`}
 		>
+			<Head>
+				<title>Sizzle - Share a review</title>
+				<meta
+					name='description'
+					content='Sizzle allows you to supercharge your restaurant using the power
+							of data. Collect reviews from your customers through our platform
+							and analyze customer sentiment and data to grow your business.'
+				/>
+				<link rel='shortcut icon' href='logo.svg' type='image/x-icon' />
+			</Head>
 			<section className='mx-auto flex w-full max-w-2xl flex-row items-center justify-start space-x-4 rounded bg-gray-50 p-4 shadow md:p-8'>
-				<div className='h-16 w-16 rounded-full bg-gray-300'></div>
+				<div className='grid h-16 w-16 content-center justify-items-center rounded-full bg-green-600'>
+					<span className='text-3xl font-medium text-gray-50'>
+						{data.name[0]}
+					</span>
+				</div>
 				<div>
 					<h1 className='text-xl font-bold'>{data.name}</h1>
 					<p className='mt-2 text-sm font-medium text-gray-600'>

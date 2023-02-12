@@ -149,7 +149,11 @@ export function AppLayout({ title, children }: appLayout) {
 		>
 			<nav className='flex h-screen w-fit flex-col items-center justify-start border-r border-gray-300 bg-gray-50 p-2 md:w-80 md:p-4'>
 				<div className='flex w-full flex-row items-center justify-start space-x-4'>
-					<div className='h-12 w-12 rounded-full bg-gray-300'></div>
+					<div className='grid h-12 w-12 content-center justify-items-center rounded-full bg-green-600'>
+						<span className='text-2xl font-medium text-gray-50'>
+							{context?.user.name ? context?.user.name[0] : 'R'}
+						</span>
+					</div>
 					<h1 className='hidden w-fit truncate text-xl font-bold md:block'>
 						{context?.user.name ? context?.user.name : 'Restaurant name'}
 					</h1>
@@ -192,7 +196,7 @@ export function AppLayout({ title, children }: appLayout) {
 				</div>
 			</nav>
 			<section className='flex h-screen w-full flex-col items-center justify-start bg-gray-100'>
-				<div className='flex w-full flex-row items-center justify-between space-x-2 border-b border-gray-300 bg-gray-100 p-4 '>
+				<div className='z-10 flex w-full flex-row items-center justify-between space-x-2 bg-gray-100 p-4 shadow-md '>
 					<h2 className='text-lg font-medium text-gray-900'>{title}</h2>
 					<button
 						onClick={handleClick}

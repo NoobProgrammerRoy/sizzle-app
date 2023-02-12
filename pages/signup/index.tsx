@@ -13,6 +13,7 @@ import { supabase } from '@/utils/supabase/supbase-client';
 import { useRouter } from 'next/router';
 import { Info } from '@/components/form/Info';
 import { useUser } from '@/utils/context/user-context';
+import Head from 'next/head';
 
 const inter = Inter({ subsets: ['latin'] });
 
@@ -162,6 +163,16 @@ export default function signup() {
 		<main
 			className={`${inter.className} flex min-h-screen w-full flex-col items-center justify-center bg-gradient-to-b from-green-300 to-green-100 p-4`}
 		>
+			<Head>
+				<title>Sizzle - Sign Up</title>
+				<meta
+					name='description'
+					content='Sizzle allows you to supercharge your restaurant using the power
+							of data. Collect reviews from your customers through our platform
+							and analyze customer sentiment and data to grow your business.'
+				/>
+				<link rel='shortcut icon' href='logo.svg' type='image/x-icon' />
+			</Head>
 			<div className='flex flex-row items-start justify-center space-x-1 text-gray-700'>
 				<span>
 					<svg

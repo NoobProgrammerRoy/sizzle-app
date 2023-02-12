@@ -5,6 +5,7 @@ import { SyntheticEvent, useEffect, useRef } from 'react';
 import QRCode from 'qrcode';
 import styles from 'styles/page.module.css';
 import { Button } from '@/components/form/Button';
+import Head from 'next/head';
 
 const inter = Inter({ subsets: ['latin'] });
 
@@ -20,28 +21,44 @@ export default function qr({
 	const ref = useRef<HTMLCanvasElement>(null);
 
 	useEffect(() => {
-		QRCode.toCanvas(
-			ref.current,
-			'www.sizzle.com/review/' + data.review_id,
-			{
-				errorCorrectionLevel: 'L',
-				margin: 2,
-				scale: 8,
-				version: 4,
-			},
-			(err) => {
-				if (err) throw err;
-			}
-		);
+		try {
+			clear(ref.current);
+			draw(ref.current, data.review_id);
+		} catch (err: any) {
+			console.log(err.message);
+		}
 
 		return () => {
-			const canvas = ref.current;
-			if (canvas) {
-				const ctx = canvas.getContext('2d');
-				ctx?.clearRect(0, 0, canvas.width, canvas.height);
-			}
+			clear(ref.current);
 		};
 	}, []);
+
+	// Function to draw the QR code
+	function draw(canvas: HTMLCanvasElement | null, id: string) {
+		if (canvas) {
+			QRCode.toCanvas(
+				canvas,
+				'www.sizzle.com/review/' + id,
+				{
+					errorCorrectionLevel: 'L',
+					margin: 2,
+					scale: 8,
+					version: 4,
+				},
+				(err) => {
+					if (err) throw err;
+				}
+			);
+		}
+	}
+
+	// Function to clear the canvas
+	function clear(canvas: HTMLCanvasElement | null) {
+		if (canvas) {
+			const ctx = canvas.getContext('2d');
+			ctx?.clearRect(0, 0, canvas.width, canvas.height);
+		}
+	}
 
 	// Function to download QR code template
 	function handleClick() {
@@ -52,6 +69,16 @@ export default function qr({
 		<main
 			className={`${inter.className} ${styles} grid min-h-screen w-full content-center justify-items-center bg-gradient-to-b from-green-300 to-green-100`}
 		>
+			<Head>
+				<title>Sizzle - QR Code</title>
+				<meta
+					name='description'
+					content='Sizzle allows you to supercharge your restaurant using the power
+							of data. Collect reviews from your customers through our platform
+							and analyze customer sentiment and data to grow your business.'
+				/>
+				<link rel='shortcut icon' href='logo.svg' type='image/x-icon' />
+			</Head>
 			<div className='absolute top-0 left-0 hidden w-full border-green-300 [border-top-width:100vh] print:block'></div>
 			<section className='w-96 rounded-md bg-white p-4 shadow print:z-10'>
 				<div className='mb-8 flex flex-row items-start justify-center space-x-1 text-gray-700'>
