@@ -6,6 +6,7 @@ import { Modal } from '@/components/ui/Modal';
 import { useUser } from '@/utils/context/user-context';
 import { useModal } from '@/utils/hooks/use-modal';
 import { supabase } from '@/utils/supabase/supbase-client';
+import Head from 'next/head';
 import { useEffect, useState } from 'react';
 
 type data = {
@@ -80,6 +81,16 @@ export default function charts() {
 
 	return (
 		<AppLayout title='Charts'>
+			<Head>
+				<title>Sizzle - Charts</title>
+				<meta
+					name='description'
+					content='Sizzle allows you to supercharge your restaurant using the power
+							of data. Collect reviews from your customers through our platform
+							and analyze customer sentiment and data to grow your business.'
+				/>
+				<link rel='shortcut icon' href='logo.svg' type='image/x-icon' />
+			</Head>
 			{loading ? (
 				<Loader />
 			) : (

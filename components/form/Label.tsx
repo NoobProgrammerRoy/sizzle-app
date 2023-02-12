@@ -5,7 +5,7 @@ type label = {
 
 export function Label({ id, text }: label) {
 	return (
-		<label className='block text-sm text-gray-900' htmlFor={id}>
+		<label className='block text-sm font-medium text-gray-900' htmlFor={id}>
 			{text}
 		</label>
 	);

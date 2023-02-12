@@ -1,8 +1,14 @@
+import { Inter } from '@next/font/google';
+
+const inter = Inter({ subsets: ['latin'] });
+
 export function Footer() {
 	return (
-		<footer className='bg-gradient-to-b from-green-600 via-green-500 to-green-400 p-2 md:p-4'>
+		<footer
+			className={`${inter.className} bg-gradient-to-r from-green-600 to-green-400 p-2 md:p-4`}
+		>
 			<div className='container mx-auto flex flex-col items-center justify-center'>
-				<div className=' flex flex-row items-center justify-start space-x-1 text-gray-50'>
+				<div className=' flex flex-row items-start justify-start space-x-1 text-gray-50'>
 					<span>
 						<svg
 							xmlns='http://www.w3.org/2000/svg'
@@ -19,7 +25,9 @@ export function Footer() {
 					</span>
 					<p className='text-xl font-bold'>Sizzle</p>
 				</div>
-				<p className='mt-2 text-gray-100'>Email address: sizzleapp@gmail.com</p>
+				<p className='mt-2 text-center text-gray-100'>
+					For further inquires, write to us at sizzleapp@gmail.com
+				</p>
 			</div>
 		</footer>
 	);

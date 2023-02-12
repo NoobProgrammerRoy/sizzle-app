@@ -6,6 +6,7 @@ import { useUser } from '@/utils/context/user-context';
 import { formatRating } from '@/utils/helpers/format-rating';
 import { useModal } from '@/utils/hooks/use-modal';
 import { supabase } from '@/utils/supabase/supbase-client';
+import Head from 'next/head';
 import { useEffect, useState } from 'react';
 
 type data = {
@@ -66,6 +67,16 @@ export default function app() {
 	}, []);
 	return (
 		<AppLayout title='Home'>
+			<Head>
+				<title>Sizzle - Home</title>
+				<meta
+					name='description'
+					content='Sizzle allows you to supercharge your restaurant using the power
+							of data. Collect reviews from your customers through our platform
+							and analyze customer sentiment and data to grow your business.'
+				/>
+				<link rel='shortcut icon' href='logo.svg' type='image/x-icon' />
+			</Head>
 			{loading ? (
 				<Loader />
 			) : (
@@ -75,14 +86,20 @@ export default function app() {
 							<section className=' mt-2 mb-8 '>
 								<h3 className='mb-2 font-bold text-gray-900'>Reviews</h3>
 								<div className='grid grid-cols-1 gap-4 md:grid-cols-3'>
-									<Card title='Total' value={data.count_total} />
+									<Card
+										title='Total'
+										value={data.count_total}
+										total={data.count_total}
+									/>
 									<Card
 										title='Today'
 										value={data.count_today ? data.count_today : '-'}
+										total={data.count_total}
 									/>
 									<Card
 										title='This Week'
 										value={data.count_week ? data.count_week : '-'}
+										total={data.count_total}
 									/>
 								</div>
 							</section>

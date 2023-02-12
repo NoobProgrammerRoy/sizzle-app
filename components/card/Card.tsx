@@ -2,14 +2,15 @@ type card = {
 	title: string;
 	value: string | number;
 	up?: boolean;
+	total?: string | number;
 };
-export function Card({ title, value, up = true }: card) {
+export function Card({ title, value, up = true, total = 5 }: card) {
 	return (
 		<div className='mx-auto w-full max-w-sm rounded bg-white p-4 shadow'>
 			<div className='mb-4 flex flex-row items-center justify-between'>
 				<h4 className='text-sm font-medium text-gray-700'>{title}</h4>
 				<span>
-					{up ? (
+					{/* {up ? (
 						<svg
 							xmlns='http://www.w3.org/2000/svg'
 							fill='none'
@@ -39,14 +40,14 @@ export function Card({ title, value, up = true }: card) {
 								d='M9 12.75l3 3m0 0l3-3m-3 3v-7.5M21 12a9 9 0 11-18 0 9 9 0 0118 0z'
 							/>
 						</svg>
-					)}
+					)} */}
 				</span>
 			</div>
 			<p
 				className='truncate text-3xl font-bold text-gray-900'
 				title={value.toString()}
 			>
-				{value}
+				{value} <span className='text-lg text-gray-600'>/ {total}</span>
 			</p>
 		</div>
 	);

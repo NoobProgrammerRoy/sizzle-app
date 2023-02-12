@@ -16,6 +16,11 @@ import { Modal } from '@/components/ui/Modal';
 import { Alert } from '@/components/ui/Alert';
 import { useModal } from '@/utils/hooks/use-modal';
 import { Info } from '@/components/form/Info';
+import { PricingCard } from '@/components/card/PricingCard';
+import Image from 'next/image';
+import dashboardPic from '@/public/dashboard.png';
+import reviewPic from '@/public/review.png';
+import Head from 'next/head';
 
 const inter = Inter({ subsets: ['latin'] });
 
@@ -90,60 +95,87 @@ export default function IndexPage() {
 
 	return (
 		<>
+			<Head>
+				<title>Sizzle - Restaurant Review and Analytical Platform</title>
+				<meta
+					name='description'
+					content='Sizzle allows you to supercharge your restaurant using the power
+							of data. Collect reviews from your customers through our platform
+							and analyze customer sentiment and data to grow your business.'
+				/>
+				<link rel='shortcut icon' href='logo.svg' type='image/x-icon' />
+			</Head>
 			<Navbar />
 			<main
-				className={`${inter.className} bg-gradient-to-b from-gray-50 via-green-200 to-white`}
+				className={`${inter.className} bg-gradient-to-b from-gray-50  to-white`}
 			>
 				{/* Main */}
-				<section className='container mx-auto grid min-h-screen grid-cols-1 gap-4 md:grid-cols-2'>
-					<article className='my-auto p-4'>
+				<section className='container mx-auto grid grid-cols-1 py-16 md:min-h-screen md:grid-cols-2 md:gap-4 md:py-0'>
+					<article className='p-4 md:my-auto'>
 						<h1 className='text-3xl font-bold text-gray-900 md:text-5xl'>
 							Sizzle - Restaurant Review and Analytical Platform
 						</h1>
-						<p className='my-4 text-base text-gray-700 md:my-8 md:text-xl'>
-							Sizzle allows you to supercharge your restaurant through the power
+						<p className='my-4 text-base leading-relaxed text-gray-700 md:my-8 md:text-lg'>
+							Sizzle allows you to supercharge your restaurant using the power
 							of data. Collect reviews from your customers through our platform
 							and analyze customer sentiment and data to grow your business.
 						</p>
 						<Link
 							href={'/signup'}
-							className='block w-fit rounded bg-gradient-to-r from-green-600 to-green-400 px-4 py-2 text-sm text-gray-100 md:text-base'
+							className='block w-fit rounded bg-gradient-to-r from-green-600 to-green-400 px-4 py-2 text-sm font-medium text-gray-100 md:text-base'
 						>
 							Try now for free
 						</Link>
 					</article>
-					<article>{/* Insert svg here */}</article>
-				</section>
-				{/* About  */}
-				<section
-					id='about'
-					className='container mx-auto grid grid-cols-1 gap-4 md:min-h-screen md:grid-cols-2'
-				>
-					<article>{/* Insert svg here */}</article>
-					<article className='p-4 md:my-auto'>
-						<h2 className='mb-2 text-center text-xl font-bold text-gray-900 md:mb-4 md:text-3xl'>
-							About Us
-						</h2>
-						<p className='text-gray-700 md:text-xl'>
-							Sizzle is a platform that allows restaurants to understand their
-							customers better and provide better quality meals and services.
-							This is done by analyzing real-time customer feedback which is
-							then processed and delivered to your business. Understand and
-							analyze key customer metrics such as taste, pricing, ambience etc.
-							through tabular and graphic visualizations to serve your customers
-							better.
-						</p>
+					<article className='mx-auto p-4 md:my-auto'>
+						<Image
+							className='rounded shadow shadow-green-600'
+							src={dashboardPic}
+							alt='Sizzle Dashboard'
+							priority={true}
+						/>
 					</article>
 				</section>
+				{/* About  */}
+				<section id='about' className='bg-gray-100 py-16 md:py-0'>
+					<div className='container mx-auto grid grid-cols-1 md:min-h-screen md:grid-cols-2 md:gap-4'>
+						<article className='order-last mx-auto p-4 md:order-first md:my-auto'>
+							<Image
+								className='rounded shadow shadow-green-600'
+								src={reviewPic}
+								alt='Sizzle Dashboard'
+							/>
+						</article>
+						<article className='p-4 md:my-auto'>
+							<h2 className='mb-2 text-center text-xl font-bold text-gray-900 md:mb-4 md:text-3xl'>
+								About Us
+							</h2>
+							<p className='text-base leading-relaxed text-gray-700 md:text-lg'>
+								Sizzle is a platform that allows restaurants to understand their
+								customers better and provide better quality meals and services.
+								This is done by analyzing real-time customer feedback which is
+								then processed and delivered to your business. Understand and
+								analyze key customer metrics such as taste, pricing, ambience
+								etc. through tabular and graphic visualizations to serve your
+								customers better.
+							</p>
+						</article>
+					</div>
+				</section>
+
 				{/* Features */}
-				<section id='features' className='container mx-auto md:min-h-screen'>
-					<article className='p-4 md:my-auto'>
-						<h2 className='mb-2 text-center text-xl font-bold text-gray-900 md:mb-4 md:text-3xl'>
+				<section
+					id='features'
+					className='grid bg-gradient-to-r from-green-600 to-green-400 py-16 md:min-h-screen md:py-0'
+				>
+					<article className='container mx-auto p-4 md:my-auto'>
+						<h2 className='mb-2 text-center text-xl font-bold text-gray-50 md:mb-4 md:text-3xl'>
 							Our Features
 						</h2>
 						<div className='grid grid-cols-1 gap-4 md:grid-cols-2 lg:grid-cols-4'>
 							<FeatureCard
-								text='Visualize customer data using tabular and graphical tools'
+								title='Data Visualization'
+								text='Visualize and study customer feedback using tabular data and graphical charts'
 								icon={
 									<svg
 										xmlns='http://www.w3.org/2000/svg'
@@ -156,13 +188,14 @@ export default function IndexPage() {
 								}
 							/>
 							<FeatureCard
-								text='Understand key customer metrics to enhance and grow your business'
+								title='Analyze Customer Data'
+								text='Understand the key customer metrics and patterns to enhance and grow your business'
 								icon={
 									<svg
 										xmlns='http://www.w3.org/2000/svg'
 										viewBox='0 0 24 24'
 										fill='currentColor'
-										className='h-8 w-8 fill-green-400 md:h-12 md:w-12'
+										className='h-8 w-8 fill-yellow-400 md:h-12 md:w-12'
 									>
 										<path
 											fillRule='evenodd'
@@ -174,13 +207,14 @@ export default function IndexPage() {
 								}
 							/>
 							<FeatureCard
+								title='Unique QR Code'
 								text='Collect real-time customer feedback using QR codes unique to your business'
 								icon={
 									<svg
 										xmlns='http://www.w3.org/2000/svg'
 										viewBox='0 0 24 24'
 										fill='currentColor'
-										className='h-8 w-8 fill-green-400 md:h-12 md:w-12'
+										className='h-8 w-8 fill-gray-700 md:h-12 md:w-12'
 									>
 										<path
 											fillRule='evenodd'
@@ -191,13 +225,14 @@ export default function IndexPage() {
 								}
 							/>
 							<FeatureCard
+								title='Notifications'
 								text='Send custom notifications to your customers regarding offers and discounts (Coming soon)'
 								icon={
 									<svg
 										xmlns='http://www.w3.org/2000/svg'
 										viewBox='0 0 24 24'
 										fill='currentColor'
-										className='h-8 w-8 fill-green-400 md:h-12 md:w-12'
+										className='h-8 w-8 fill-blue-400 md:h-12 md:w-12'
 									>
 										<path
 											fillRule='evenodd'
@@ -210,69 +245,99 @@ export default function IndexPage() {
 						</div>
 					</article>
 				</section>
+				{/* Pricing  */}
+				<section id='pricing' className='bg-gray-100 py-16 md:py-0'>
+					<div className='container mx-auto grid grid-cols-1 bg-gray-100 md:min-h-screen md:grid-cols-2 md:gap-4'>
+						<article className='p-4 md:my-auto'>
+							<h2 className='mb-2 text-center text-xl font-bold text-gray-900 md:mb-4 md:text-3xl'>
+								Pricing
+							</h2>
+							<p className='text-base leading-relaxed text-gray-700 md:text-lg'>
+								Simple and budget-friendly monthly subscription. No tiered
+								pricing. No hidden charges. Just straight to the point. Want to
+								use it before you pay for it?{' '}
+								<span className='font-bold text-gray-900'>
+									Try Sizzle for free for{' '}
+									<span className='text-green-700'>14 days.</span>
+								</span>
+							</p>
+						</article>
+						<article className='p-4 md:my-auto'>
+							<PricingCard />
+						</article>
+					</div>
+				</section>
+
 				{/* Contact */}
-				<section id='contact' className='container mx-auto md:mb-8'>
-					<article className='p-4'>
-						<h2 className='text-center text-xl font-bold text-gray-700 md:text-3xl'>
-							Contact us
-						</h2>
-						<p className='my-2 text-center text-gray-700 md:my-4 md:text-xl'>
-							Want to book a live demo or have any queries? Please do let us
-							know.
-						</p>
+				<section
+					id='contact'
+					className='container mx-auto grid grid-cols-1 py-16 md:mb-8 md:min-h-screen md:grid-cols-2 md:gap-4 md:py-0'
+				>
+					<article className='order-last p-4 md:order-first md:my-auto'>
 						{error.error && (
 							<div className='my-4 mx-auto max-w-fit'>
 								<Alert variant='danger' text={error.message} />
 							</div>
 						)}
 						<div className='flex flex-row items-center justify-center'>
-							<Form onSubmit={handleSubmit}>
-								<div className='mb-4'>
-									<div className='mb-1'>
-										<Label id='name' text='Name' />
+							<div className='w-fit rounded shadow shadow-green-600'>
+								<Form onSubmit={handleSubmit}>
+									<div className='mb-4'>
+										<div className='mb-1'>
+											<Label id='name' text='Name' />
+										</div>
+										<TextField
+											value={formData.name}
+											onChange={handleChange}
+											type='text'
+											name='name'
+											id='name'
+											placeholder='Name'
+											required={true}
+										/>
 									</div>
-									<TextField
-										value={formData.name}
-										onChange={handleChange}
-										type='text'
-										name='name'
-										id='name'
-										placeholder='Name'
-										required={true}
-									/>
-								</div>
-								<div className='mb-4'>
-									<div className='mb-1'>
-										<Label id='email' text='Email address' />
+									<div className='mb-4'>
+										<div className='mb-1'>
+											<Label id='email' text='Email address' />
+										</div>
+										<TextField
+											value={formData.email}
+											onChange={handleChange}
+											type='email'
+											name='email'
+											id='email'
+											placeholder='Email address'
+											required={true}
+										/>
 									</div>
-									<TextField
-										value={formData.email}
-										onChange={handleChange}
-										type='email'
-										name='email'
-										id='email'
-										placeholder='Email address'
-										required={true}
-									/>
-								</div>
-								<div className='mb-4'>
-									<div className='mb-1'>
-										<Label id='message' text='Message' />
+									<div className='mb-4'>
+										<div className='mb-1'>
+											<Label id='message' text='Message' />
+										</div>
+										<TextField
+											value={formData.message}
+											onChange={handleChange}
+											type='text'
+											name='message'
+											id='message'
+											placeholder='Message'
+											required={true}
+										/>
+										<Info text='Message should only contain alphanumeric characters, comma or full stop.' />
 									</div>
-									<TextField
-										value={formData.message}
-										onChange={handleChange}
-										type='text'
-										name='message'
-										id='message'
-										placeholder='Message'
-										required={true}
-									/>
-									<Info text='Message should only contain alphanumeric characters, comma or full stop.' />
-								</div>
-								<Button variant='full' text='Send a message' />
-							</Form>
+									<Button variant='full' text='Send a message' />
+								</Form>
+							</div>
 						</div>
+					</article>
+					<article className='p-4 md:my-auto'>
+						<h2 className='mb-2 text-center text-xl font-bold text-gray-900 md:mb-4 md:text-3xl'>
+							Contact us
+						</h2>
+						<p className='leading-relaxed text-gray-700  md:text-lg'>
+							Want to book a live demo or have any queries? Please do let us
+							know.
+						</p>
 					</article>
 				</section>
 			</main>

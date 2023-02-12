@@ -14,6 +14,7 @@ import { useModal } from '@/utils/hooks/use-modal';
 import { useUser } from '@/utils/context/user-context';
 import { Loader } from '@/components/ui/Loader';
 import Link from 'next/link';
+import Head from 'next/head';
 
 // Schema for settings data
 const schema = z.object({
@@ -180,6 +181,16 @@ export default function settings() {
 
 	return (
 		<AppLayout title='Settings'>
+			<Head>
+				<title>Sizzle - Settings</title>
+				<meta
+					name='description'
+					content='Sizzle allows you to supercharge your restaurant using the power
+							of data. Collect reviews from your customers through our platform
+							and analyze customer sentiment and data to grow your business.'
+				/>
+				<link rel='shortcut icon' href='logo.svg' type='image/x-icon' />
+			</Head>
 			{loading ? (
 				<Loader />
 			) : (

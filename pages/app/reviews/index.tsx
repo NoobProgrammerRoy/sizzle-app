@@ -4,9 +4,11 @@ import { Select } from '@/components/form/Select';
 import { AppLayout } from '@/components/ui/AppLayout';
 import { Loader } from '@/components/ui/Loader';
 import { Modal } from '@/components/ui/Modal';
+import { Table } from '@/components/ui/Table';
 import { useUser } from '@/utils/context/user-context';
 import { useModal } from '@/utils/hooks/use-modal';
 import { supabase } from '@/utils/supabase/supbase-client';
+import Head from 'next/head';
 import { SyntheticEvent, useEffect, useState } from 'react';
 
 type data = {
@@ -24,7 +26,7 @@ const DATE = new Date();
 
 export default function reviews() {
 	const [pageCount, setPageCount] = useState<number>(0);
-	const [totalPageCount, settotalPageCount] = useState<number>(9);
+	const [totalPageCount, setTotalPageCount] = useState<number>(9);
 	const [date, setDate] = useState<'Today' | 'This month' | 'Total'>('Total');
 	const [data, setData] = useState<data[] | null>(null);
 	const { loading, setLoading, error, setError } = useModal();
@@ -134,7 +136,8 @@ export default function reviews() {
 				  '01'
 				: '2023-01-01';
 
-		const { data, count, error } = await supabase
+		// Fetch data from the server
+		const { data, error } = await supabase
 			.from('review_view')
 			.select(
 				`created_at, taste, service, ambience, pricing, recommendation, mode_of_visit, feedback`,
@@ -149,18 +152,41 @@ export default function reviews() {
 
 		if (error) throw error;
 
-		setLoading(false);
-		setData(data);
+		const { count, error: countError } = await supabase
+			.from('review_view')
+			.select(
+				`created_at, taste, service, ambience, pricing, recommendation, mode_of_visit, feedback`,
+				{ count: 'exact', head: true }
+			)
+			.eq('user_id', userId)
+			.gt('created_at', dateValue);
 
-		if (date === 'Total') {
-			setTotalDataCount(data.length);
+		if (countError) throw countError;
+
+		setLoading(false);
+		setData(data as data[]);
+
+		if (date === 'Total' && count) {
+			setTotalDataCount(count);
 		}
 		// Fetch total number of pages and set total page count
-		settotalPageCount(+(count! / 100).toFixed());
+		if (count) {
+			setTotalPageCount(Math.floor(count / 100));
+		}
 	}
 
 	return (
 		<AppLayout title='Reviews'>
+			<Head>
+				<title>Sizzle - Reviews</title>
+				<meta
+					name='description'
+					content='Sizzle allows you to supercharge your restaurant using the power
+							of data. Collect reviews from your customers through our platform
+							and analyze customer sentiment and data to grow your business.'
+				/>
+				<link rel='shortcut icon' href='logo.svg' type='image/x-icon' />
+			</Head>
 			{loading ? (
 				<Loader />
 			) : (
@@ -184,65 +210,7 @@ export default function reviews() {
 							</div>
 							{data && data.length > 0 ? (
 								<>
-									<div className='my-4 w-full overflow-x-auto rounded shadow'>
-										<table className='w-full table-fixed rounded'>
-											<thead>
-												<tr className='bg-green-600 text-sm'>
-													<th className='truncate p-2 text-left font-medium text-gray-50'>
-														#
-													</th>
-													<th className='truncate p-2 text-left font-medium text-gray-50'>
-														Date
-													</th>
-													<th className='truncate p-2 text-left font-medium text-gray-50'>
-														Taste
-													</th>
-													<th className='truncate p-2 text-left font-medium text-gray-50'>
-														Service
-													</th>
-													<th className='truncate p-2 text-left font-medium text-gray-50'>
-														Ambience
-													</th>
-													<th className='truncate p-2 text-left font-medium text-gray-50'>
-														Pricing
-													</th>
-													<th className='truncate p-2 text-left font-medium text-gray-50'>
-														Recommendation
-													</th>
-													<th className='truncate p-2 text-left font-medium text-gray-50'>
-														Mode of visit
-													</th>
-													<th className='truncate p-2 text-left font-medium text-gray-50'>
-														Feedback
-													</th>
-												</tr>
-											</thead>
-											<tbody>
-												{data.map((item, index) => (
-													<tr
-														key={index}
-														className={`${
-															index % 2 === 0 ? 'bg-white' : 'bg-green-50'
-														} text-sm text-gray-700`}
-													>
-														<td className='p-2'>{index + 1}</td>
-														<td className='p-2'>
-															{item.created_at.split('T')[0]}
-														</td>
-														<td className='p-2'>{item.taste}</td>
-														<td className='p-2'>{item.service}</td>
-														<td className='p-2'>{item.ambience}</td>
-														<td className='p-2'>{item.pricing}</td>
-														<td className='p-2'>{item.recommendation}</td>
-														<td className='truncate p-2'>
-															{item.mode_of_visit}
-														</td>
-														<td className='truncate p-2'>{item.feedback}</td>
-													</tr>
-												))}
-											</tbody>
-										</table>
-									</div>
+									<Table data={data} page={pageCount} />
 									<div className='flex flex-row items-center justify-between space-x-2'>
 										<p className='text-sm text-gray-700'>
 											Showing {pageCount + 1} of {totalPageCount + 1} pages
