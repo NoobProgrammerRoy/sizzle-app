@@ -60,10 +60,10 @@ export default function IndexPage() {
 					if (el.isIntersecting) {
 						if (el.target.id === 'pricing-card') {
 							el.target.classList.add(animationStyles['animate-from-right']);
-							el.target.classList.add('opacity-100');
+							el.target.classList.remove('opacity-0');
 						} else {
 							el.target.classList.add(animationStyles['animate-from-left']);
-							el.target.classList.add('opacity-100');
+							el.target.classList.remove('opacity-0');
 						}
 						observer.unobserve(el.target);
 					}
