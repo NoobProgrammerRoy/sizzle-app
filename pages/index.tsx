@@ -134,8 +134,7 @@ export default function IndexPage() {
 
 			if (error) throw error;
 
-			// Reset form data
-			setLoading(false);
+			// Reset form data and error
 			setFormData({
 				name: '',
 				email: '',
@@ -147,6 +146,8 @@ export default function IndexPage() {
 				error: true,
 				message: 'An error has occured. Please try again later',
 			});
+		} finally {
+			setLoading(false);
 		}
 	}
 

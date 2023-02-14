@@ -58,13 +58,13 @@ export default function charts() {
 				);
 				if (modeTotalError) throw modeTotalError;
 
-				setLoading(false);
 				setTodayData(dataToday as data[]);
 				setTotalData(dataTotal as data[]);
 				setModeData(modeTotal as mode[]);
 			} catch (err) {
-				setLoading(false);
 				setError(true);
+			} finally {
+				setLoading(false);
 			}
 		}
 
@@ -100,18 +100,16 @@ export default function charts() {
 							<div className='mt-2 mb-8'>
 								<h3 className='mb-2 font-bold text-gray-900'>Taste</h3>
 								<div className='grid grid-cols-1 gap-4 lg:grid-cols-2'>
-									{totalData && totalData.length > 0 ? (
-										<BarChart
-											values={totalData
-												.filter((item) => item.taste && item.count_taste)
-												.map((item) => {
-													return {
-														value: item.taste,
-														count: item.count_taste,
-													};
-												})}
-										/>
-									) : null}
+									<BarChart
+										values={totalData
+											.filter((item) => item.taste && item.count_taste)
+											.map((item) => {
+												return {
+													value: item.taste,
+													count: item.count_taste,
+												};
+											})}
+									/>
 									{todayData && todayData.length > 0 ? (
 										<PieChart
 											values={todayData
@@ -131,18 +129,16 @@ export default function charts() {
 							<div className='mt-2 mb-8'>
 								<h3 className='mb-2 font-bold text-gray-900'>Service</h3>
 								<div className='grid grid-cols-1 gap-4 lg:grid-cols-2'>
-									{totalData && totalData.length > 0 ? (
-										<BarChart
-											values={totalData
-												.filter((item) => item.service && item.count_service)
-												.map((item) => {
-													return {
-														value: item.service,
-														count: item.count_service,
-													};
-												})}
-										/>
-									) : null}
+									<BarChart
+										values={totalData
+											.filter((item) => item.service && item.count_service)
+											.map((item) => {
+												return {
+													value: item.service,
+													count: item.count_service,
+												};
+											})}
+									/>
 									{todayData && todayData.length > 0 ? (
 										<PieChart
 											values={todayData
@@ -162,18 +158,16 @@ export default function charts() {
 							<div className='mt-2 mb-8'>
 								<h3 className='mb-2 font-bold text-gray-900'>Ambience</h3>
 								<div className='grid grid-cols-1 gap-4 lg:grid-cols-2'>
-									{totalData && totalData.length > 0 ? (
-										<BarChart
-											values={totalData
-												.filter((item) => item.ambience && item.count_ambience)
-												.map((item) => {
-													return {
-														value: item.ambience,
-														count: item.count_ambience,
-													};
-												})}
-										/>
-									) : null}
+									<BarChart
+										values={totalData
+											.filter((item) => item.ambience && item.count_ambience)
+											.map((item) => {
+												return {
+													value: item.ambience,
+													count: item.count_ambience,
+												};
+											})}
+									/>
 									{todayData && todayData.length > 0 ? (
 										<PieChart
 											values={todayData
@@ -193,18 +187,16 @@ export default function charts() {
 							<div className='mt-2 mb-8'>
 								<h3 className='mb-2 font-bold text-gray-900'>Pricing</h3>
 								<div className='grid grid-cols-1 gap-4 lg:grid-cols-2'>
-									{totalData && totalData.length > 0 ? (
-										<BarChart
-											values={totalData
-												.filter((item) => item.pricing && item.count_pricing)
-												.map((item) => {
-													return {
-														value: item.pricing,
-														count: item.count_pricing,
-													};
-												})}
-										/>
-									) : null}
+									<BarChart
+										values={totalData
+											.filter((item) => item.pricing && item.count_pricing)
+											.map((item) => {
+												return {
+													value: item.pricing,
+													count: item.count_pricing,
+												};
+											})}
+									/>
 									{todayData && todayData.length > 0 ? (
 										<PieChart
 											values={todayData
@@ -224,21 +216,19 @@ export default function charts() {
 							<div className='mt-2 mb-8'>
 								<h3 className='mb-2 font-bold text-gray-900'>Recommendation</h3>
 								<div className='grid grid-cols-1 gap-4 lg:grid-cols-2'>
-									{totalData && totalData.length > 0 ? (
-										<BarChart
-											values={totalData
-												.filter(
-													(item) =>
-														item.recommendation && item.count_recommendation
-												)
-												.map((item) => {
-													return {
-														value: item.recommendation,
-														count: item.count_recommendation,
-													};
-												})}
-										/>
-									) : null}
+									<BarChart
+										values={totalData
+											.filter(
+												(item) =>
+													item.recommendation && item.count_recommendation
+											)
+											.map((item) => {
+												return {
+													value: item.recommendation,
+													count: item.count_recommendation,
+												};
+											})}
+									/>
 									{todayData && todayData.length > 0 ? (
 										<PieChart
 											values={todayData

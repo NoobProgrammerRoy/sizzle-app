@@ -127,7 +127,6 @@ export default function review({
 
 			if (error) throw error;
 
-			setLoading(false);
 			setSuccess(true);
 			setFormData({
 				name: '',
@@ -141,8 +140,9 @@ export default function review({
 				feedback: '',
 			});
 		} catch (err) {
-			setLoading(false);
 			setModalError(true);
+		} finally {
+			setLoading(false);
 		}
 	}
 

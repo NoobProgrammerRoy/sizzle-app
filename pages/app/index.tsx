@@ -47,11 +47,11 @@ export default function app() {
 
 				if (dataError) throw dataError;
 
-				setLoading(false);
 				setData(data as data);
 			} catch (err) {
-				setLoading(false);
 				setError(true);
+			} finally {
+				setLoading(false);
 			}
 		}
 

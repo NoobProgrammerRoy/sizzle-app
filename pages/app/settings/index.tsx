@@ -61,9 +61,9 @@ export default function settings() {
 			try {
 				const { name, contact, review_id: reviewId } = await fetchData();
 
-				// Clear the canvas and draw QR code
 				console.log(ref.current);
-				if (ref.current) {
+				// Clear the canvas and draw QR code
+				if (ref && ref.current) {
 					clear(ref.current);
 					draw(ref.current, reviewId);
 				}
@@ -71,15 +71,15 @@ export default function settings() {
 				// Set review Id to be used for redraws on form submission
 				id.current = reviewId;
 
-				setLoading(false);
 				setFormData({
 					name,
 					contact,
 				});
-			} catch (err: any) {
+			} catch (err) {
 				// Display error using modal
-				setLoading(false);
 				setModalError(true);
+			} finally {
+				setLoading(false);
 			}
 		}
 
@@ -90,7 +90,7 @@ export default function settings() {
 
 		// Clear QR code drawn on the client
 		return () => {
-			if (ref.current) {
+			if (ref && ref.current) {
 				clear(ref.current);
 			}
 			setLoading(false);
