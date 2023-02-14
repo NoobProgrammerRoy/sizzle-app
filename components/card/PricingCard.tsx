@@ -1,4 +1,5 @@
 import Link from 'next/link';
+import { Ref } from 'react';
 
 const features = [
 	'Unlimited reviews',
@@ -7,9 +8,17 @@ const features = [
 	'100 notifications per month (Coming soon)',
 ];
 
-export function PricingCard() {
+export function PricingCard({
+	elementRef,
+}: {
+	elementRef?: Ref<HTMLDivElement>;
+}) {
 	return (
-		<div className='mx-auto w-full max-w-md rounded bg-white p-4 shadow shadow-green-600 md:p-8'>
+		<div
+			ref={elementRef}
+			id='pricing-card'
+			className='relative mx-auto w-full max-w-md rounded bg-white p-4 opacity-0 shadow  shadow-green-600 md:p-8'
+		>
 			<h3 className='text-xl font-bold text-gray-900 md:text-3xl'>
 				&#8377;499{' '}
 				<span className='text-base text-gray-700 md:text-lg'>/ month</span>

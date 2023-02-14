@@ -6,7 +6,7 @@ import { Label } from '@/components/form/Label';
 import { TextField } from '@/components/form/TextField';
 import { Button } from '@/components/form/Button';
 import { useForm } from '@/utils/hooks/use-form';
-import { SyntheticEvent, useState } from 'react';
+import { SyntheticEvent, useEffect, useRef, useState } from 'react';
 import { z } from 'zod';
 import { useError } from '@/utils/hooks/use-error';
 import { Navbar } from '@/components/home/Navbar';
@@ -21,6 +21,7 @@ import Image from 'next/image';
 import dashboardPic from '@/public/dashboard.png';
 import reviewPic from '@/public/review.png';
 import Head from 'next/head';
+import animationStyles from '@/styles/index.module.css';
 
 const inter = Inter({ subsets: ['latin'] });
 
@@ -39,6 +40,62 @@ export default function IndexPage() {
 	const [error, setError] = useError();
 
 	const { loading, setLoading } = useModal();
+
+	// Refs for adding animation along with intersection observer
+	const imageRef = useRef<HTMLImageElement>(null);
+	const pricingRef = useRef<HTMLDivElement>(null);
+	const formRef = useRef<HTMLDivElement>(null);
+	const cardRefs = [
+		useRef<HTMLDivElement>(null),
+		useRef<HTMLDivElement>(null),
+		useRef<HTMLDivElement>(null),
+		useRef<HTMLDivElement>(null),
+	];
+
+	// Use effect to add / remove intersection observer
+	useEffect(() => {
+		const observer = new IntersectionObserver(
+			(elements) => {
+				elements.forEach((el) => {
+					if (el.isIntersecting) {
+						if (el.target.id === 'pricing-card') {
+							el.target.classList.add(animationStyles['animate-from-right']);
+							el.target.classList.add('opacity-100');
+						} else {
+							el.target.classList.add(animationStyles['animate-from-left']);
+							el.target.classList.add('opacity-100');
+						}
+						observer.unobserve(el.target);
+					}
+				});
+			},
+			{
+				threshold: 0.5,
+			}
+		);
+
+		if (imageRef && imageRef.current) {
+			observer.observe(imageRef.current);
+		}
+
+		if (pricingRef && pricingRef.current) {
+			observer.observe(pricingRef.current);
+		}
+
+		if (formRef && formRef.current) {
+			observer.observe(formRef.current);
+		}
+
+		cardRefs.forEach((cardRef) => {
+			if (cardRef && cardRef.current) {
+				observer.observe(cardRef.current);
+			}
+		});
+
+		return () => {
+			observer.disconnect();
+		};
+	}, []);
 
 	// Function to handle change in user input
 	function handleChange(e: SyntheticEvent) {
@@ -107,7 +164,7 @@ export default function IndexPage() {
 			</Head>
 			<Navbar />
 			<main
-				className={`${inter.className} bg-gradient-to-b from-gray-50  to-white`}
+				className={`${inter.className} overflow-hidden bg-gradient-to-b from-gray-50  to-white`}
 			>
 				{/* Main */}
 				<section className='container mx-auto grid grid-cols-1 py-16 md:min-h-screen md:grid-cols-2 md:gap-4 md:py-0'>
@@ -129,7 +186,7 @@ export default function IndexPage() {
 					</article>
 					<article className='mx-auto p-4 md:my-auto'>
 						<Image
-							className='rounded shadow shadow-green-600'
+							className={`${animationStyles['animate-from-right']} relative rounded shadow shadow-green-600`}
 							src={dashboardPic}
 							alt='Sizzle Dashboard'
 							priority={true}
@@ -141,7 +198,8 @@ export default function IndexPage() {
 					<div className='container mx-auto grid grid-cols-1 md:min-h-screen md:grid-cols-2 md:gap-4'>
 						<article className='order-last mx-auto p-4 md:order-first md:my-auto'>
 							<Image
-								className='rounded shadow shadow-green-600'
+								ref={imageRef}
+								className={`relative rounded opacity-0 shadow shadow-green-600`}
 								src={reviewPic}
 								alt='Sizzle Dashboard'
 							/>
@@ -174,6 +232,7 @@ export default function IndexPage() {
 						</h2>
 						<div className='grid grid-cols-1 gap-4 md:grid-cols-2 lg:grid-cols-4'>
 							<FeatureCard
+								elementRef={cardRefs[0]}
 								title='Data Visualization'
 								text='Visualize and study customer feedback using tabular data and graphical charts'
 								icon={
@@ -188,6 +247,7 @@ export default function IndexPage() {
 								}
 							/>
 							<FeatureCard
+								elementRef={cardRefs[1]}
 								title='Analyze Customer Data'
 								text='Understand the key customer metrics and patterns to enhance and grow your business'
 								icon={
@@ -207,6 +267,7 @@ export default function IndexPage() {
 								}
 							/>
 							<FeatureCard
+								elementRef={cardRefs[2]}
 								title='Unique QR Code'
 								text='Collect real-time customer feedback using QR codes unique to your business'
 								icon={
@@ -225,6 +286,7 @@ export default function IndexPage() {
 								}
 							/>
 							<FeatureCard
+								elementRef={cardRefs[3]}
 								title='Notifications'
 								text='Send custom notifications to your customers regarding offers and discounts (Coming soon)'
 								icon={
@@ -263,7 +325,7 @@ export default function IndexPage() {
 							</p>
 						</article>
 						<article className='p-4 md:my-auto'>
-							<PricingCard />
+							<PricingCard elementRef={pricingRef} />
 						</article>
 					</div>
 				</section>
@@ -280,7 +342,10 @@ export default function IndexPage() {
 							</div>
 						)}
 						<div className='flex flex-row items-center justify-center'>
-							<div className='w-fit rounded shadow shadow-green-600'>
+							<div
+								ref={formRef}
+								className='relative w-fit rounded opacity-0 shadow shadow-green-600'
+							>
 								<Form onSubmit={handleSubmit}>
 									<div className='mb-4'>
 										<div className='mb-1'>
@@ -334,7 +399,7 @@ export default function IndexPage() {
 						<h2 className='mb-2 text-center text-xl font-bold text-gray-900 md:mb-4 md:text-3xl'>
 							Contact us
 						</h2>
-						<p className='leading-relaxed text-gray-700  md:text-lg'>
+						<p className='leading-relaxed text-gray-700 md:text-center  md:text-lg'>
 							Want to book a live demo or have any queries? Please do let us
 							know.
 						</p>
