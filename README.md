@@ -1,38 +1,26 @@
-This is a [Next.js](https://nextjs.org/) project bootstrapped with [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app).
+# Sizzle - Restaurant Review and Analytical Platform
 
-## Getting Started
+Sizzle allows you to supercharge your restaurant using the power of data. Collect reviews from your customers through our platform and analyze customer sentiment and data to grow your business.
 
-First, run the development server:
+## Features
 
-```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-```
+- Visualize and study customer feedback using tabular data and graphical charts
+- Understand the key customer metrics and patterns to enhance and grow your business
+- Collect real-time customer feedback using QR codes unique to your business
+- Send custom notifications to your customers regarding offers and discounts (Coming soon)
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+## Tech Stack
 
-You can start editing the page by modifying `pages/index.tsx`. The page auto-updates as you edit the file.
+- Next.js
+- Tailwind CSS
+- Supabase
+- Typescript
 
-[API routes](https://nextjs.org/docs/api-routes/introduction) can be accessed on [http://localhost:3000/api/hello](http://localhost:3000/api/hello). This endpoint can be edited in `pages/api/hello.ts`.
+## Setup
 
-The `pages/api` directory is mapped to `/api/*`. Files in this directory are treated as [API routes](https://nextjs.org/docs/api-routes/introduction) instead of React pages.
-
-This project uses [`next/font`](https://nextjs.org/docs/basic-features/font-optimization) to automatically optimize and load Inter, a custom Google Font.
-
-## Learn More
-
-To learn more about Next.js, take a look at the following resources:
-
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
-
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js/) - your feedback and contributions are welcome!
-
-## Deploy on Vercel
-
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
-
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/deployment) for more details.
+- Clone the repository
+- Install the required dependencies using <code>npm install</code>
+- Create a new project in supabase
+- Copy the <code>supabase_url</code> and <code>anon_key</code> from the project settings
+- Create an .env.local file within your repository and add the following variables: <code>NEXT_PUBLIC_SUPABASE_URL=supabase_url</code> and <code>NEXT_PUBLIC_SUPABASE_KEY=anon_key</code>
+- Run the command <code>npm run dev</code> to start the project on <code>localhost:3000</code>
