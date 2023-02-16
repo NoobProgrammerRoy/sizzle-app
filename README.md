@@ -3,8 +3,8 @@
 Sizzle allows you to supercharge your restaurant using the power of data. Collect reviews from your customers through our platform and analyze customer sentiment and data to grow your business.
 
 ![Landing-Page](./public/landing-page.PNG)
+
 ![Landing-Page](./public/dashboard.png)
-![Landing-Page](./public/review.png)
 
 ## Features
 
