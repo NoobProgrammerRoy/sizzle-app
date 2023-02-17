@@ -215,7 +215,7 @@ export default function IndexPage() {
 								This is done by analyzing real-time customer feedback which is
 								then processed and delivered to your business. Understand and
 								analyze key customer metrics such as taste, pricing, ambience
-								etc. through tabular and graphic visualizations to serve your
+								etc. through tabular and graphical visualizations to serve your
 								customers better.
 							</p>
 						</article>
@@ -398,7 +398,7 @@ export default function IndexPage() {
 					</article>
 					<article className='p-4 md:my-auto'>
 						<h2 className='mb-2 text-center text-xl font-bold text-gray-900 md:mb-4 md:text-3xl'>
-							Contact us
+							Contact Us
 						</h2>
 						<p className='leading-relaxed text-gray-700 md:text-center  md:text-lg'>
 							Want to book a live demo or have any queries? Please do let us

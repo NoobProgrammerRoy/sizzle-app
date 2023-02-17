@@ -18,8 +18,8 @@ export function PieChart({
 }) {
 	if (!values) {
 		return (
-			<div className='mx-auto grid w-full max-w-xl content-center justify-items-center rounded bg-white px-4 py-8 shadow lg:py-4 '>
-				<p className='text-xs font-medium leading-relaxed text-gray-600 md:text-center md:text-sm'>
+			<div className='mx-auto grid w-full max-w-xl content-center justify-items-center rounded bg-white p-4 shadow '>
+				<p className='text-sm font-medium leading-relaxed text-gray-600 md:text-center'>
 					Oops. You haven't collected any reviews for today. Collect reviews
 					from your customers to view them here.
 				</p>

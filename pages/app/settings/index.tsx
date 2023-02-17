@@ -200,7 +200,10 @@ export default function settings() {
 							<h3 className='mb-4 font-bold text-gray-900'>
 								Restaurant QR Code
 							</h3>
-							<div id='qrcode' className='w-fit border border-gray-300'>
+							<div
+								id='qrcode'
+								className='mx-auto w-fit border border-gray-300 md:mx-0'
+							>
 								<canvas ref={ref}></canvas>
 							</div>
 							<div className=''></div>

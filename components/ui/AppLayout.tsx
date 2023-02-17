@@ -151,11 +151,11 @@ export function AppLayout({ title, children }: appLayout) {
 				<div className='flex w-full flex-row items-center justify-start space-x-4'>
 					<div className='grid h-12 w-12 content-center justify-items-center rounded-full bg-green-600'>
 						<span className='text-2xl font-medium text-gray-50'>
-							{context?.user.name ? context?.user.name[0] : 'R'}
+							{context?.user.name ? context?.user.name[0] : ''}
 						</span>
 					</div>
 					<h1 className='hidden w-fit truncate text-xl font-bold md:block'>
-						{context?.user.name ? context?.user.name : 'Restaurant name'}
+						{context?.user.name ? context?.user.name : ''}
 					</h1>
 				</div>
 				<ul className='mt-8 w-full'>

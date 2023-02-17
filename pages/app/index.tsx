@@ -104,7 +104,9 @@ export default function app() {
 								</div>
 							</section>
 							<section className=' mt-2 mb-8 '>
-								<h3 className='mb-2 font-bold text-gray-900'>Average Rating</h3>
+								<h3 className='mb-2 font-bold text-gray-900'>
+									Average Overall Rating
+								</h3>
 								<div className='grid grid-cols-1 gap-4 md:grid-cols-3'>
 									<Card
 										title='Total'
@@ -150,7 +152,9 @@ export default function app() {
 								</div>
 							</section>
 							<section className=' mt-2 mb-8 '>
-								<h3 className='mb-2 font-bold text-gray-900'>Taste Rating</h3>
+								<h3 className='mb-2 font-bold text-gray-900'>
+									Average Taste Rating
+								</h3>
 								<div className='grid grid-cols-1 gap-4 md:grid-cols-3'>
 									<Card title='Total' value={formatRating(data.taste_total!)} />
 									<Card
@@ -168,7 +172,9 @@ export default function app() {
 								</div>
 							</section>
 							<section className=' mt-2 mb-8 '>
-								<h3 className='mb-2 font-bold text-gray-900'>Service Rating</h3>
+								<h3 className='mb-2 font-bold text-gray-900'>
+									Average Service Rating
+								</h3>
 								<div className='grid grid-cols-1 gap-4 md:grid-cols-3'>
 									<Card
 										title='Total'
@@ -192,7 +198,7 @@ export default function app() {
 							</section>
 							<section className=' mt-2 mb-8 '>
 								<h3 className='mb-2 font-bold text-gray-900'>
-									Ambience Rating
+									Average Ambience Rating
 								</h3>
 								<div className='grid grid-cols-1 gap-4 md:grid-cols-3'>
 									<Card
@@ -218,7 +224,9 @@ export default function app() {
 								</div>
 							</section>
 							<section className=' mt-2 mb-8 '>
-								<h3 className='mb-2 font-bold text-gray-900'>Pricing Rating</h3>
+								<h3 className='mb-2 font-bold text-gray-900'>
+									Average Pricing Rating
+								</h3>
 								<div className='grid grid-cols-1 gap-4 md:grid-cols-3'>
 									<Card
 										title='Total'
@@ -242,7 +250,7 @@ export default function app() {
 							</section>
 							<section className=' mt-2 mb-8 '>
 								<h3 className='mb-2 font-bold text-gray-900'>
-									Recommendation Rating
+									Average Recommendation Rating
 								</h3>
 								<div className='grid grid-cols-1 gap-4 md:grid-cols-3'>
 									<Card
