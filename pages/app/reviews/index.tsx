@@ -232,7 +232,7 @@ export default function Reviews() {
 							) : (
 								<div className='flex h-full flex-col items-center justify-center'>
 									<p className='font-medium text-gray-600'>
-										Oops. You haven't collected any reviews for{' '}
+										Oops. You haven{"'"}t collected any reviews for{' '}
 										{date.toLowerCase()}. Collect reviews from your customers to
 										view them here.
 									</p>
@@ -244,8 +244,8 @@ export default function Reviews() {
 						!error && (
 							<div className='flex h-full flex-col items-center justify-center'>
 								<p className='font-medium text-gray-600'>
-									Oops. You haven't collected any reviews yet. Collect reviews
-									from your customers to view them here.
+									Oops. You haven{"'"}t collected any reviews yet. Collect
+									reviews from your customers to view them here.
 								</p>
 							</div>
 						)

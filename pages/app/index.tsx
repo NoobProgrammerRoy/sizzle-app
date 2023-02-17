@@ -280,8 +280,8 @@ export default function App() {
 						!error && (
 							<div className='flex h-full flex-col items-center justify-center'>
 								<p className='font-medium text-gray-600'>
-									Oops. You haven't collected any reviews yet. Collect reviews
-									from your customers to view them here.
+									Oops. You haven{"'"}t collected any reviews yet. Collect
+									reviews from your customers to view them here.
 								</p>
 							</div>
 						)

@@ -190,7 +190,7 @@ export default function Signin() {
 				<Button text='Sign in to your account' variant='full' />
 			</Form>
 			<p className='mt-4 text-gray-700'>
-				Don't have an account?
+				Don{"'"}t have an account?
 				<Link
 					className='ml-1 text-indigo-600 hover:text-indigo-800'
 					href={'/signup'}

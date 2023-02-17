@@ -20,7 +20,7 @@ export function PieChart({
 		return (
 			<div className='mx-auto grid w-full max-w-xl content-center justify-items-center rounded bg-white p-4 shadow '>
 				<p className='text-sm font-medium leading-relaxed text-gray-600 md:text-center'>
-					Oops. You haven't collected any reviews for today. Collect reviews
+					Oops. You haven{"'"}t collected any reviews for today. Collect reviews
 					from your customers to view them here.
 				</p>
 			</div>
