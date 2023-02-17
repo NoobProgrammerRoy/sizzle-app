@@ -83,7 +83,6 @@ export default function Settings() {
 			}
 		}
 
-		console.log('Ref: ', ref.current);
 		setLoading(true);
 		if (context?.user.user) {
 			drawAndUpdate();
@@ -192,89 +191,89 @@ export default function Settings() {
 				/>
 				<link rel='shortcut icon' href='logo.svg' type='image/x-icon' />
 			</Head>
-			{loading ? (
-				<Loader />
-			) : (
-				<>
-					<div className='grid grid-cols-1 gap-x-4 lg:grid-cols-2'>
-						<section className='mt-2 mb-8'>
-							<h3 className='mb-4 font-bold text-gray-900'>
-								Restaurant QR Code
-							</h3>
-							<div
-								id='qrcode'
-								className='mx-auto w-fit border border-gray-300 md:mx-0'
+			{/* Editing here */}
+			<>
+				{loading ? <Loader /> : null}
+				<div
+					className={`grid grid-cols-1 gap-x-4 lg:grid-cols-2 ${
+						loading ? 'hidden' : ''
+					}`}
+				>
+					<section className='mt-2 mb-8'>
+						<h3 className='mb-4 font-bold text-gray-900'>Restaurant QR Code</h3>
+						<div
+							id='qrcode'
+							className='mx-auto w-fit border border-gray-300 md:mx-0'
+						>
+							<canvas ref={ref}></canvas>
+						</div>
+						<div className=''></div>
+						<p className='mt-2 mb-4 text-sm font-medium leading-relaxed text-gray-600'>
+							The QR code above is unique to your restaurant. Download the QR
+							code or Scan it to open the review portal for your restaurant.
+						</p>
+						<div className='max-w-lg'>
+							<Link
+								href={`/app/qr/${id.current}`}
+								download={'QR Code'}
+								className='block w-fit rounded bg-gradient-to-r from-green-600 to-green-400 px-4 py-2 text-sm text-gray-50'
 							>
-								<canvas ref={ref}></canvas>
-							</div>
-							<div className=''></div>
-							<p className='mt-2 mb-4 text-sm font-medium leading-relaxed text-gray-600'>
-								The QR code above is unique to your restaurant. Download the QR
-								code or Scan it to open the review portal for your restaurant.
-							</p>
-							<div className='max-w-lg'>
-								<Link
-									href={`/app/qr/${id.current}`}
-									download={'QR Code'}
-									className='block w-fit rounded bg-gradient-to-r from-green-600 to-green-400 px-4 py-2 text-sm text-gray-50'
-								>
-									View QR code template
-								</Link>
-							</div>
-						</section>
-						<section className='mt-2 mb-8'>
-							<h3 className='mb-4 font-bold text-gray-900'>
-								Edit Restaurant details
-							</h3>
-							<div className='max-w-lg'>
-								{error.error && (
-									<div className='my-4'>
-										<Alert variant='danger' text={error.message} />
+								View QR code template
+							</Link>
+						</div>
+					</section>
+					<section className='mt-2 mb-8'>
+						<h3 className='mb-4 font-bold text-gray-900'>
+							Edit Restaurant details
+						</h3>
+						<div className='max-w-lg'>
+							{error.error && (
+								<div className='my-4'>
+									<Alert variant='danger' text={error.message} />
+								</div>
+							)}
+							<form onSubmit={handleSubmit}>
+								<div className='mb-4'>
+									<div className='mb-1'>
+										<Label id='name' text='Restaurant name' />
 									</div>
-								)}
-								<form onSubmit={handleSubmit}>
-									<div className='mb-4'>
-										<div className='mb-1'>
-											<Label id='name' text='Restaurant name' />
-										</div>
-										<TextField
-											value={formData.name}
-											onChange={handleChange}
-											type='text'
-											name='name'
-											id='name'
-											placeholder='Restaurant name'
-											required={true}
-										/>
+									<TextField
+										value={formData.name}
+										onChange={handleChange}
+										type='text'
+										name='name'
+										id='name'
+										placeholder='Restaurant name'
+										required={true}
+									/>
+								</div>
+								<div className='mb-4'>
+									<div className='mb-1'>
+										<Label id='contact' text='Contact number' />
 									</div>
-									<div className='mb-4'>
-										<div className='mb-1'>
-											<Label id='contact' text='Contact number' />
-										</div>
-										<TextField
-											value={formData.contact}
-											onChange={handleChange}
-											type='text'
-											name='contact'
-											id='contact'
-											placeholder='Contact number'
-											required={true}
-										/>
-									</div>
-									<Button variant='fit' text='Edit details' />
-								</form>
-							</div>
-						</section>
-					</div>
+									<TextField
+										value={formData.contact}
+										onChange={handleChange}
+										type='text'
+										name='contact'
+										id='contact'
+										placeholder='Contact number'
+										required={true}
+									/>
+								</div>
+								<Button variant='fit' text='Edit details' />
+							</form>
+						</div>
+					</section>
+				</div>
 
-					{modalError && (
-						<Modal
-							status='error'
-							message='An error has occured. Please try again later.'
-						/>
-					)}
-				</>
-			)}
+				{modalError && (
+					<Modal
+						status='error'
+						message='An error has occured. Please try again later.'
+					/>
+				)}
+			</>
 		</AppLayout>
 	);
 }
