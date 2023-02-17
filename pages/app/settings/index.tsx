@@ -61,7 +61,6 @@ export default function Settings() {
 			try {
 				const { name, contact, review_id: reviewId } = await fetchData();
 
-				console.log(ref.current);
 				// Clear the canvas and draw QR code
 				if (ref && ref.current) {
 					clear(ref.current);
