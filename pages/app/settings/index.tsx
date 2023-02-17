@@ -103,7 +103,7 @@ export default function settings() {
 		if (canvas) {
 			QRCode.toCanvas(
 				canvas,
-				'www.sizzle.com/review/' + reviewId,
+				process.env.NEXT_PUBLIC_REVIEW_URL + reviewId,
 				{
 					errorCorrectionLevel: 'L',
 					margin: 2,
