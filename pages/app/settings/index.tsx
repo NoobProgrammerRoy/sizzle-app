@@ -83,6 +83,7 @@ export default function Settings() {
 			}
 		}
 
+		console.log('Ref: ', ref.current);
 		setLoading(true);
 		if (context?.user.user) {
 			drawAndUpdate();
