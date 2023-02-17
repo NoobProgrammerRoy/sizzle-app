@@ -8,7 +8,7 @@ type modal = {
 
 export function Modal({ status = undefined, message }: modal) {
 	return (
-		<div className='fixed top-0 left-0 z-10 flex h-screen w-full flex-col items-center justify-center bg-[rgba(0,0,0,0.7)]'>
+		<div className='fixed top-0 left-0 z-10 flex h-screen w-full flex-col items-center justify-center bg-[rgba(0,0,0,0.7)] p-4'>
 			<div className='w-full max-w-sm rounded bg-gray-50 p-4 shadow md:p-8'>
 				{status === 'loading' && (
 					<span className='mx-auto mb-4 block w-fit'>

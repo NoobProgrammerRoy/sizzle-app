@@ -67,7 +67,7 @@ export default function QR({
 
 	return (
 		<main
-			className={`${inter.className} ${styles} grid min-h-screen w-full content-center justify-items-center bg-gradient-to-b from-green-300 to-green-100`}
+			className={`${inter.className} ${styles} grid min-h-screen w-full content-center justify-items-center bg-gradient-to-b from-green-300 to-green-100 p-4`}
 		>
 			<Head>
 				<title>Sizzle - QR Code</title>
@@ -80,7 +80,7 @@ export default function QR({
 				<link rel='shortcut icon' href='logo.svg' type='image/x-icon' />
 			</Head>
 			<div className='absolute top-0 left-0 hidden w-full border-green-300 [border-top-width:100vh] print:block'></div>
-			<section className='w-96 rounded-md bg-white p-4 shadow print:z-10'>
+			<section className='w-full max-w-sm rounded-md bg-white p-4 shadow print:z-10'>
 				<div className='mb-8 flex flex-row items-start justify-center space-x-1 text-gray-700'>
 					<span>
 						<svg
