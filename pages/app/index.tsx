@@ -30,7 +30,7 @@ type data = {
 	taste_week: number | null;
 } | null;
 
-export default function app() {
+export default function App() {
 	const { loading, setLoading, error, setError } = useModal();
 	const [data, setData] = useState<data>(null);
 	const context = useUser();

@@ -45,7 +45,7 @@ type props = {
 	review_id: string;
 };
 
-export default function review({
+export default function Review({
 	data,
 }: InferGetServerSidePropsType<typeof getServerSideProps>) {
 	const [formData, setFormData] = useForm({

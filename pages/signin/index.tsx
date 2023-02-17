@@ -22,7 +22,7 @@ const schema = z.object({
 	password: z.string().regex(/^[a-zA-Z0-9]{6,18}$/),
 });
 
-export default function signin() {
+export default function Signin() {
 	const [formData, setFormData] = useForm({
 		email: '',
 		password: '',
@@ -190,9 +190,9 @@ export default function signin() {
 				<Button text='Sign in to your account' variant='full' />
 			</Form>
 			<p className='mt-4 text-gray-700'>
-				Don't have an account?{' '}
+				Don't have an account?
 				<Link
-					className='text-indigo-600 hover:text-indigo-800'
+					className='ml-1 text-indigo-600 hover:text-indigo-800'
 					href={'/signup'}
 				>
 					Click here to sign up

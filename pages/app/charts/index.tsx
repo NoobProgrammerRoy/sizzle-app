@@ -29,7 +29,7 @@ type mode = {
 	count_mode: number | null;
 };
 
-export default function charts() {
+export default function Charts() {
 	const { loading, setLoading, error, setError } = useModal();
 	const [todayData, setTodayData] = useState<data[] | null>(null);
 	const [totalData, setTotalData] = useState<data[] | null>(null);

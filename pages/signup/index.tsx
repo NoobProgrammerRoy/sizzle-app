@@ -29,7 +29,7 @@ const schema = z.object({
 // Regex for contact
 const contactRegex = /^[0-9]{0,10}$/;
 
-export default function signup() {
+export default function Signup() {
 	const [formData, setFormData] = useForm({
 		name: '',
 		contact: '',
@@ -273,9 +273,9 @@ export default function signup() {
 				<Button text='Create an account' variant='full' />
 			</Form>
 			<p className='mt-4 text-gray-700'>
-				Already have an account?{' '}
+				Already have an account?
 				<Link
-					className='text-indigo-600 hover:text-indigo-800'
+					className='ml-1 text-indigo-600 hover:text-indigo-800'
 					href={'/signin'}
 				>
 					Click here to sign in

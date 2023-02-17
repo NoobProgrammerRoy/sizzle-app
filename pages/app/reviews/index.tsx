@@ -24,7 +24,7 @@ type data = {
 
 const DATE = new Date();
 
-export default function reviews() {
+export default function Reviews() {
 	const [pageCount, setPageCount] = useState<number>(0);
 	const [totalPageCount, setTotalPageCount] = useState<number>(9);
 	const [date, setDate] = useState<'Today' | 'This month' | 'Total'>('Total');

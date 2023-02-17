@@ -25,7 +25,7 @@ const schema = z.object({
 // Regex for contact
 const contactRegex = /^[0-9]{0,10}$/;
 
-export default function settings() {
+export default function Settings() {
 	const [formData, setFormData] = useForm({
 		name: '',
 		contact: '',

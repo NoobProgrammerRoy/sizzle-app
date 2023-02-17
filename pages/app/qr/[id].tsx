@@ -15,7 +15,7 @@ type props = {
 	review_id: string;
 };
 
-export default function qr({
+export default function QR({
 	data,
 }: InferGetServerSidePropsType<typeof getServerSideProps>) {
 	const ref = useRef<HTMLCanvasElement>(null);
