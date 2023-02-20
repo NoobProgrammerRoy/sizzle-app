@@ -18,7 +18,7 @@ export function PieChart({
 }) {
 	if (!values) {
 		return (
-			<div className='mx-auto grid w-full max-w-xl content-center justify-items-center rounded bg-white p-4 shadow '>
+			<div className='mx-auto grid w-full max-w-xl content-center justify-items-center rounded-sm bg-white p-4 shadow '>
 				<p className='text-sm font-medium leading-relaxed text-gray-600 md:text-center'>
 					Oops. You haven{"'"}t collected any reviews for today. Collect reviews
 					from your customers to view them here.
@@ -98,7 +98,7 @@ export function PieChart({
 	};
 
 	return (
-		<div className='mx-auto w-full max-w-xl rounded bg-white p-2 shadow md:p-4'>
+		<div className='mx-auto w-full max-w-xl rounded-sm bg-white p-2 shadow md:p-4'>
 			<div className='mx-auto w-full md:w-1/2'>
 				<Pie data={data} options={options} />
 			</div>

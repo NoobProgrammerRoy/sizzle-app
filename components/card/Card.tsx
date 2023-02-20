@@ -6,7 +6,7 @@ type card = {
 };
 export function Card({ title, value, up = true, total = 5 }: card) {
 	return (
-		<div className='mx-auto w-full max-w-sm rounded bg-white p-4 shadow'>
+		<div className='mx-auto w-full max-w-sm rounded-sm bg-white p-4 shadow'>
 			<div className='mb-4 flex flex-row items-center justify-between'>
 				<h4 className='text-sm font-medium text-gray-700'>{title}</h4>
 				<span>

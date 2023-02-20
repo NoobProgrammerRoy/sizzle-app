@@ -11,8 +11,8 @@ type data = {
 
 export function Table({ data, page }: { data: data[]; page: number }) {
 	return (
-		<div className='my-4 w-full overflow-x-auto rounded shadow'>
-			<table className='w-[300%] table-fixed rounded md:w-[200%] lg:w-full'>
+		<div className='my-4 w-full overflow-x-auto rounded-sm'>
+			<table className='w-[300%] table-fixed rounded-sm md:w-[200%] lg:w-full'>
 				<thead>
 					<tr className='bg-green-600 text-sm'>
 						<th className='truncate p-2 text-left font-medium text-gray-50'>

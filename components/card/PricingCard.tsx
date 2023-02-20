@@ -17,7 +17,7 @@ export function PricingCard({
 		<div
 			ref={elementRef}
 			id='pricing-card'
-			className='relative mx-auto w-full max-w-md rounded bg-white p-4 opacity-0 shadow  shadow-green-600 md:p-8'
+			className='relative mx-auto w-full max-w-md rounded-sm bg-white p-4 opacity-0 ring-1 ring-green-600 md:p-8'
 		>
 			<h3 className='text-xl font-bold text-gray-900 md:text-3xl'>
 				&#8377;499{' '}
@@ -51,7 +51,7 @@ export function PricingCard({
 			</ul>
 			<Link
 				href={'signup'}
-				className='mt-8 block w-fit rounded bg-gradient-to-r from-green-600 to-green-400 px-4 py-2 text-sm font-medium text-gray-100'
+				className='mt-8 block w-fit rounded-sm bg-gradient-to-r from-green-600 to-green-400 px-4 py-2 text-sm font-medium text-gray-100'
 			>
 				Get started
 			</Link>

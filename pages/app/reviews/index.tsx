@@ -212,7 +212,7 @@ export default function Reviews() {
 								<>
 									<Table data={data} page={pageCount} />
 									<div className='flex flex-row items-center justify-between space-x-2'>
-										<p className='text-sm text-gray-700'>
+										<p className='text-sm font-medium text-gray-700'>
 											Showing {pageCount + 1} of {totalPageCount + 1} pages
 										</p>
 										<div className='flex flex-row items-center justify-between space-x-2'>

@@ -71,12 +71,13 @@ export function BarChart({
 				label: 'No. of ratings',
 				data: getChartData(values),
 				backgroundColor: 'rgb(34, 197, 94)',
+				barPercentage: 0.5,
 			},
 		],
 	};
 
 	return (
-		<div className='mx-auto w-full max-w-xl rounded bg-white p-2 shadow md:p-4'>
+		<div className='mx-auto w-full max-w-xl rounded-sm bg-white p-2 shadow md:p-4'>
 			<Bar options={options} data={data} />
 		</div>
 	);

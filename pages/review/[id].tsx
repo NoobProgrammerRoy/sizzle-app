@@ -160,7 +160,7 @@ export default function Review({
 				/>
 				<link rel='shortcut icon' href='logo.svg' type='image/x-icon' />
 			</Head>
-			<section className='mx-auto flex w-full max-w-2xl flex-row items-center justify-start space-x-4 rounded bg-gray-50 p-4 shadow md:p-8'>
+			<section className='mx-auto flex w-full max-w-2xl flex-row items-center justify-start space-x-4 rounded-sm bg-gray-50 p-4 shadow md:p-8'>
 				<div className='grid h-16 w-16 content-center justify-items-center rounded-full bg-green-600'>
 					<span className='text-3xl font-medium text-gray-50'>
 						{data.name[0]}
@@ -169,7 +169,7 @@ export default function Review({
 				<div>
 					<h1 className='text-xl font-bold'>{data.name}</h1>
 					<p className='mt-2 text-sm font-medium text-gray-600'>
-						{data.contact}
+						Contact: {data.contact}
 					</p>
 				</div>
 			</section>
@@ -178,8 +178,11 @@ export default function Review({
 					<Alert variant='danger' text={error.message} />
 				</div>
 			)}
-			<section className='mx-auto my-4 w-full max-w-2xl rounded bg-gray-50 p-4 shadow md:p-8'>
-				<p className='mb-4 font-bold text-gray-900'>Add a review</p>
+			<section className='mx-auto my-4 w-full max-w-2xl rounded-sm bg-gray-50 p-4 shadow md:p-8'>
+				<p className='mb-1 font-bold text-gray-900'>Add a review</p>
+				<p className='mb-4 text-sm font-medium text-red-600'>
+					All fields are compulsory
+				</p>
 				<form onSubmit={handleSubmit}>
 					{/* Name */}
 					<div className='mb-4'>

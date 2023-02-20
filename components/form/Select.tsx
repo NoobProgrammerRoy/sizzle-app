@@ -11,7 +11,7 @@ type select = {
 export function Select({ value, onChange, name, id, options }: select) {
 	return (
 		<select
-			className='rounded border border-gray-300 bg-white p-1 text-sm text-gray-700'
+			className='rounded-sm border border-gray-300 bg-white p-1 text-sm text-gray-700'
 			name={name}
 			id={id}
 			value={value}

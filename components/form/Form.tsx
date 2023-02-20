@@ -9,7 +9,7 @@ export function Form({ children, onSubmit }: form) {
 	return (
 		<form
 			onSubmit={onSubmit}
-			className='w-full max-w-md rounded bg-gray-50 p-4 shadow md:p-8'
+			className='w-full max-w-md rounded-sm bg-gray-50 p-4 shadow md:p-8'
 		>
 			{children}
 		</form>

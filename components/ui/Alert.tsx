@@ -10,7 +10,7 @@ export function Alert({ text, variant }: alert) {
 				variant === 'success'
 					? 'bg-gren-200 border-green-600 text-green-600'
 					: 'border-red-600 bg-red-200 text-red-600'
-			} flex flex-row items-center justify-center space-x-2 rounded border py-2 px-4 text-sm`}
+			} flex flex-row items-center justify-center space-x-2 rounded-sm border py-2 px-4 text-sm`}
 		>
 			{variant === 'success' && (
 				<span>

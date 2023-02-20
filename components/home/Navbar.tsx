@@ -56,7 +56,7 @@ export function Navbar() {
 								scroll={false}
 								className={`${
 									route.name === 'Sign in'
-										? 'rounded bg-gradient-to-r from-green-600 to-green-400 px-4 py-2 text-sm text-gray-100 hover:text-gray-100 md:text-base'
+										? 'rounded-sm bg-gradient-to-r from-green-600 to-green-400 px-4 py-2 text-sm text-gray-100 hover:text-gray-100 md:text-base'
 										: 'hidden text-gray-600 hover:text-gray-900 md:block'
 								} font-medium transition-colors`}
 								href={route.route}

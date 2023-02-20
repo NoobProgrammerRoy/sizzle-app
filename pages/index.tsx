@@ -180,14 +180,14 @@ export default function IndexPage() {
 						</p>
 						<Link
 							href={'/signup'}
-							className='block w-fit rounded bg-gradient-to-r from-green-600 to-green-400 px-4 py-2 text-sm font-medium text-gray-100 md:text-base'
+							className='block w-fit rounded-sm bg-gradient-to-r from-green-600 to-green-400 px-4 py-2 text-sm font-medium text-gray-100 md:text-base'
 						>
 							Try now for free
 						</Link>
 					</article>
 					<article className='mx-auto p-4 md:my-auto'>
 						<Image
-							className={`${animationStyles['animate-from-right']} relative rounded shadow shadow-green-600`}
+							className={`${animationStyles['animate-from-right']} relative rounded-sm ring-1 ring-green-600 `}
 							src={dashboardPic}
 							alt='Sizzle Dashboard'
 							priority={true}
@@ -200,7 +200,7 @@ export default function IndexPage() {
 						<article className='order-last mx-auto p-4 md:order-first md:my-auto'>
 							<Image
 								ref={imageRef}
-								className={`relative rounded opacity-0 shadow shadow-green-600`}
+								className={`relative rounded-sm opacity-0 shadow`}
 								src={reviewPic}
 								alt='Sizzle Dashboard'
 							/>
@@ -345,7 +345,7 @@ export default function IndexPage() {
 						<div className='flex flex-row items-center justify-center'>
 							<div
 								ref={formRef}
-								className='relative w-fit rounded opacity-0 shadow shadow-green-600'
+								className='relative w-fit rounded-sm opacity-0 shadow'
 							>
 								<Form onSubmit={handleSubmit}>
 									<div className='mb-4'>

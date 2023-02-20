@@ -23,8 +23,8 @@ export function Rating({ name, id, value, onChange }: rating) {
 							strokeWidth={1.5}
 							stroke='currentColor'
 							className={`${
-								value >= rating ? 'fill-yellow-300' : ''
-							} h-8 w-8 cursor-pointer stroke-gray-500 md:h-10 md:w-10`}
+								value >= rating ? 'fill-yellow-400' : ''
+							} h-8 w-8 cursor-pointer stroke-gray-500 stroke-1 md:h-10 md:w-10`}
 						>
 							<path
 								strokeLinecap='round'

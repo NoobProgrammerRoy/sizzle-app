@@ -206,7 +206,6 @@ export default function Settings() {
 						>
 							<canvas ref={ref}></canvas>
 						</div>
-						<div className=''></div>
 						<p className='mt-2 mb-4 text-sm font-medium leading-relaxed text-gray-600'>
 							The QR code above is unique to your restaurant. Download the QR
 							code or Scan it to open the review portal for your restaurant.
@@ -215,7 +214,7 @@ export default function Settings() {
 							<Link
 								href={`/app/qr/${id.current}`}
 								download={'QR Code'}
-								className='block w-fit rounded bg-gradient-to-r from-green-600 to-green-400 px-4 py-2 text-sm text-gray-50'
+								className='block w-fit rounded-sm bg-gradient-to-r from-green-600 to-green-400 px-4 py-2 text-sm text-gray-50'
 							>
 								View QR code template
 							</Link>

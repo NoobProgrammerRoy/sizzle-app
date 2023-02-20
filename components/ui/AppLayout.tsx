@@ -166,7 +166,7 @@ export function AppLayout({ title, children }: appLayout) {
 									router.pathname === route.route
 										? 'bg-green-100 text-green-700'
 										: 'text-gray-700'
-								} my-4 flex flex-row items-center justify-center space-x-2 rounded p-2 font-medium transition-colors hover:bg-green-200 hover:text-green-800 md:justify-start  `}
+								} my-4 flex flex-row items-center justify-center space-x-2 rounded-sm p-2 font-medium transition-colors hover:bg-green-200 hover:text-green-800 md:justify-start  `}
 								href={route.route}
 							>
 								<span>{route.icon}</span>
