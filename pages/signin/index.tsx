@@ -13,6 +13,7 @@ import { supabase } from '@/utils/supabase/supbase-client';
 import { useRouter } from 'next/router';
 import { useUser } from '@/utils/context/user-context';
 import Head from 'next/head';
+import { AuthError } from '@supabase/supabase-js';
 
 const inter = Inter({ subsets: ['latin'] });
 
@@ -116,10 +117,17 @@ export default function Signin() {
 			// Redirect user to app
 			router.push('/app');
 		} catch (err: any) {
-			setError({
-				error: true,
-				message: err.message,
-			});
+			if (err instanceof AuthError) {
+				setError({
+					error: true,
+					message: 'Invalid email address and/or password',
+				});
+			} else {
+				setError({
+					error: true,
+					message: 'An error has occured. Please try again later',
+				});
+			}
 		}
 	}
 

@@ -200,7 +200,7 @@ export default function IndexPage() {
 						<article className='order-last mx-auto p-4 md:order-first md:my-auto'>
 							<Image
 								ref={imageRef}
-								className={`relative rounded-sm opacity-0 shadow`}
+								className={`relative rounded-sm opacity-0 shadow md:w-96`}
 								src={reviewPic}
 								alt='Sizzle Dashboard'
 							/>

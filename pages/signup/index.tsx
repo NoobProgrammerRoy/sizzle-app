@@ -14,6 +14,7 @@ import { useRouter } from 'next/router';
 import { Info } from '@/components/form/Info';
 import { useUser } from '@/utils/context/user-context';
 import Head from 'next/head';
+import { AuthError } from '@supabase/supabase-js';
 
 const inter = Inter({ subsets: ['latin'] });
 
@@ -152,10 +153,17 @@ export default function Signup() {
 			// Redirect user to app
 			router.push('/app');
 		} catch (err: any) {
-			setError({
-				error: true,
-				message: err.message,
-			});
+			if (err instanceof AuthError) {
+				setError({
+					error: true,
+					message: 'User already exists',
+				});
+			} else {
+				setError({
+					error: true,
+					message: 'An error has occured. Please try again later',
+				});
+			}
 		}
 	}
 
