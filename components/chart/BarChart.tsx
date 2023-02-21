@@ -70,7 +70,9 @@ export function BarChart({
 			{
 				label: 'No. of ratings',
 				data: getChartData(values),
-				backgroundColor: 'rgb(34, 197, 94)',
+				backgroundColor: 'rgb(187, 247, 208)',
+				borderColor: 'rgb(22, 163, 74)',
+				borderWidth: 1,
 				barPercentage: 0.5,
 			},
 		],
@@ -114,5 +116,5 @@ function getChartData(values: barChart[]) {
 		data.push(0);
 	}
 
-	return data;
+	return data as number[];
 }

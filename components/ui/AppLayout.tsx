@@ -149,7 +149,7 @@ export function AppLayout({ title, children }: appLayout) {
 		>
 			<nav className='flex h-screen w-fit flex-col items-center justify-start border-r border-gray-300 bg-gray-50 p-2 md:w-80 md:p-4'>
 				<div className='flex w-full flex-row items-center justify-start space-x-4'>
-					<div className='grid h-12 w-12 content-center justify-items-center rounded-full bg-green-600'>
+					<div className='grid h-12 w-12 content-center justify-items-center rounded-full bg-gradient-to-r from-green-600 to-green-400'>
 						<span className='text-2xl font-medium text-gray-50'>
 							{context?.user.name ? context?.user.name[0] : ''}
 						</span>
