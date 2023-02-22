@@ -26,7 +26,7 @@ export function Footer() {
 					<p className='text-xl font-bold'>Sizzle</p>
 				</div>
 				<p className='mt-2 text-center text-gray-100'>
-					For further inquires, write to us at sizzleapp@gmail.com
+					For further inquires, write to us at support@sizzletech.in
 				</p>
 			</div>
 		</footer>

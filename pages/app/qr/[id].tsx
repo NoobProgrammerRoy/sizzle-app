@@ -111,7 +111,7 @@ export default function QR({
 					{data.contact}
 				</p>
 				<p className='mt-8 text-center text-sm font-medium text-gray-600'>
-					For any inquires, contact us at sizzleapp@gmail.com
+					For any inquires, contact us at support@sizzletech.in
 				</p>
 			</section>
 			<div className='mt-8'>
