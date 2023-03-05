@@ -143,12 +143,13 @@ export function AppLayout({ title, children }: appLayout) {
 		}
 	}
 
+	// Editing here
 	return (
 		<main
 			className={`${inter.className} flex h-screen w-full flex-row items-center justify-start`}
 		>
-			<nav className='flex h-screen w-fit flex-col items-center justify-start border-r border-gray-300 bg-gray-50 p-2 md:w-80 md:p-4'>
-				<div className='flex w-full flex-row items-center justify-start space-x-4'>
+			<nav className='absolute left-0 bottom-0 flex w-full flex-row items-center justify-between border-t border-gray-300 bg-gray-50 py-0 md:static md:h-screen md:w-80 md:flex-col md:justify-start md:border-r md:py-4'>
+				<div className='hidden w-full flex-row items-center justify-start space-x-4 px-2 md:flex md:px-4'>
 					<div className='grid h-12 w-12 content-center justify-items-center rounded-full bg-gradient-to-r from-green-600 to-green-400'>
 						<span className='text-2xl font-medium text-gray-50'>
 							{context?.user.name ? context?.user.name[0] : ''}
@@ -158,24 +159,26 @@ export function AppLayout({ title, children }: appLayout) {
 						{context?.user.name ? context?.user.name : ''}
 					</h1>
 				</div>
-				<ul className='mt-8 w-full'>
+				<ul className='flex w-full flex-row items-center justify-between md:mt-8 md:block'>
 					{routes.map((route) => (
-						<li key={route.name}>
+						<li key={route.name} className='w-full'>
 							<Link
 								className={`${
 									router.pathname === route.route
 										? 'bg-green-100 text-green-700'
 										: 'text-gray-700'
-								} my-4 flex flex-row items-center justify-center space-x-2 rounded-sm p-2 font-medium transition-colors hover:bg-green-200 hover:text-green-800 md:justify-start  `}
+								} my-0 flex flex-col items-center justify-center p-2 font-medium transition-colors hover:bg-green-200 hover:text-green-800 md:flex-row md:justify-start md:space-x-2 md:p-4  `}
 								href={route.route}
 							>
 								<span>{route.icon}</span>
-								<span className='hidden md:block'>{route.name}</span>
+								<span className='text-xs md:block md:text-base'>
+									{route.name}
+								</span>
 							</Link>
 						</li>
 					))}
 				</ul>
-				<div className='mt-auto w-full'>
+				<div className='mt-auto hidden w-full px-2 md:block md:px-4'>
 					<h2 className='flex flex-row items-center justify-center space-x-1 text-sm text-gray-700'>
 						<span className='hidden font-medium md:block'>Powered by </span>
 						<span>
@@ -219,7 +222,9 @@ export function AppLayout({ title, children }: appLayout) {
 						<span className='hidden text-sm  md:block'> Sign out</span>
 					</button>
 				</div>
-				<div className='h-full w-full overflow-auto p-4'>{children}</div>
+				<div className='h-full w-full overflow-auto px-4 pt-4 pb-16 md:p-4'>
+					{children}
+				</div>
 			</section>
 			{error && (
 				<Modal

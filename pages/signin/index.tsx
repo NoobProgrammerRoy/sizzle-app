@@ -197,7 +197,7 @@ export default function Signin() {
 				</div>
 				<Button text='Sign in to your account' variant='full' />
 			</Form>
-			<p className='mt-4 text-gray-700'>
+			<p className='mt-4 text-sm text-gray-700 md:text-base'>
 				Don{"'"}t have an account?
 				<Link
 					className='ml-1 text-indigo-600 hover:text-indigo-800'

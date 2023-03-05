@@ -25,7 +25,7 @@ export function Footer() {
 					</span>
 					<p className='text-xl font-bold'>Sizzle</p>
 				</div>
-				<p className='mt-2 text-center text-gray-100'>
+				<p className='mt-2 text-center text-sm text-gray-100 md:text-base'>
 					For further inquires, write to us at support@sizzletech.in
 				</p>
 			</div>

@@ -59,18 +59,18 @@ export function PieChart({
 						item.value === 5 ||
 						item.value === 'Social media and Advertisement'
 					) {
-						return 'rgb(74, 222, 128)';
-					} else if (item.value === 4 || item.value === 'Regular customer') {
 						return 'rgb(187, 247, 208)';
+					} else if (item.value === 4 || item.value === 'Regular customer') {
+						return 'rgb(167, 243, 208)';
 					} else if (item.value === 3 || item.value === 'Recommendation') {
-						return 'rgb(250, 204, 21)';
+						return 'rgb(254, 240, 138)';
 					} else if (
 						item.value === 2 ||
 						item.value === 'Wanted to try a new place'
 					) {
-						return 'rgb(251, 146, 60)';
+						return 'rgb(254, 215, 170)';
 					} else {
-						return 'rgb(248, 113, 113)';
+						return 'rgb(254, 202, 202)';
 					}
 				}),
 				borderColor: values?.map((item) => {
@@ -80,7 +80,7 @@ export function PieChart({
 					) {
 						return 'rgb(22, 163, 74)';
 					} else if (item.value === 4 || item.value === 'Regular customer') {
-						return 'rgb(74, 222, 128)';
+						return 'rgb(5, 150, 105)';
 					} else if (item.value === 3 || item.value === 'Recommendation') {
 						return 'rgb(202, 138, 4)';
 					} else if (
