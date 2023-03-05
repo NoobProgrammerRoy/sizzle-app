@@ -143,7 +143,6 @@ export function AppLayout({ title, children }: appLayout) {
 		}
 	}
 
-	// Editing here
 	return (
 		<main
 			className={`${inter.className} flex h-screen w-full flex-row items-center justify-start`}
