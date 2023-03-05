@@ -145,9 +145,9 @@ export function AppLayout({ title, children }: appLayout) {
 
 	return (
 		<main
-			className={`${inter.className} flex h-screen w-full flex-row items-center justify-start`}
+			className={`${inter.className} flex h-screen w-full flex-col-reverse items-center justify-start md:flex-row`}
 		>
-			<nav className='absolute left-0 bottom-0 flex w-full flex-row items-center justify-between border-t border-gray-300 bg-gray-50 py-0 md:static md:h-screen md:w-80 md:flex-col md:justify-start md:border-r md:py-4'>
+			<nav className='flex w-full flex-row items-center justify-between border-t border-gray-300 bg-gray-50 py-0 md:static md:h-screen md:w-80 md:flex-col md:justify-start md:border-t-0 md:border-r md:py-4'>
 				<div className='hidden w-full flex-row items-center justify-start space-x-4 px-2 md:flex md:px-4'>
 					<div className='grid h-12 w-12 content-center justify-items-center rounded-full bg-gradient-to-r from-green-600 to-green-400'>
 						<span className='text-2xl font-medium text-gray-50'>
@@ -197,7 +197,7 @@ export function AppLayout({ title, children }: appLayout) {
 					</h2>
 				</div>
 			</nav>
-			<section className='flex h-screen w-full flex-col items-center justify-start bg-gray-100'>
+			<section className='flex h-full w-full flex-col items-center justify-start overflow-hidden bg-gray-100'>
 				<div className='z-10 flex w-full flex-row items-center justify-between space-x-2 bg-gray-100 p-4 shadow-md '>
 					<h2 className='text-lg font-medium text-gray-900'>{title}</h2>
 					<button
@@ -221,9 +221,7 @@ export function AppLayout({ title, children }: appLayout) {
 						<span className='hidden text-sm  md:block'> Sign out</span>
 					</button>
 				</div>
-				<div className='h-full w-full overflow-auto px-4 pt-4 pb-16 md:p-4'>
-					{children}
-				</div>
+				<div className='h-full w-full overflow-auto p-4'>{children}</div>
 			</section>
 			{error && (
 				<Modal
