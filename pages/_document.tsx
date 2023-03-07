@@ -1,10 +1,11 @@
 import { Html, Head, Main, NextScript } from 'next/document';
+import { useEffect } from 'react';
 
 export default function Document() {
 	return (
-		<Html className='scroll-smooth' lang='en'>
+		<Html className='h-full scroll-smooth' lang='en'>
 			<Head />
-			<body>
+			<body className='h-full'>
 				<Main />
 				<NextScript />
 			</body>

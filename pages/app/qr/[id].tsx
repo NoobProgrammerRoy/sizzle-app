@@ -67,7 +67,7 @@ export default function QR({
 
 	return (
 		<main
-			className={`${inter.className} ${styles} grid min-h-screen w-full content-center justify-items-center bg-gradient-to-b from-green-300 to-green-100 p-4`}
+			className={`${inter.className} ${styles} grid min-h-full w-full content-center justify-items-center bg-gradient-to-b from-green-300 to-green-100 p-4`}
 		>
 			<Head>
 				<title>Sizzle - QR Code</title>

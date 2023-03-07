@@ -145,9 +145,9 @@ export function AppLayout({ title, children }: appLayout) {
 
 	return (
 		<main
-			className={`${inter.className} flex h-screen w-full flex-col-reverse items-center justify-start md:flex-row`}
+			className={`${inter.className} flex h-full w-full flex-col-reverse items-center justify-start md:flex-row`}
 		>
-			<nav className='flex w-full flex-row items-center justify-between border-t border-gray-300 bg-gray-50 py-0 md:static md:h-screen md:w-80 md:flex-col md:justify-start md:border-t-0 md:border-r md:py-4'>
+			<nav className='flex w-full flex-row items-center justify-between border-t border-gray-300 bg-gray-50 py-0 md:static md:h-full md:w-80 md:flex-col md:justify-start md:border-t-0 md:border-r md:py-4'>
 				<div className='hidden w-full flex-row items-center justify-start space-x-4 px-2 md:flex md:px-4'>
 					<div className='grid h-12 w-12 content-center justify-items-center rounded-full bg-gradient-to-r from-green-600 to-green-400'>
 						<span className='text-2xl font-medium text-gray-50'>
